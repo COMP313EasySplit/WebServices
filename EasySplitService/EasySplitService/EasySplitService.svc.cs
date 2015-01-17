@@ -22,5 +22,24 @@ namespace EasySplitService
 
             return userAuthenticated;
         }
+
+        public bool RegisterNewUser(string name, string email, string password)
+        {
+            bool userRegistered = false;
+            int registered = 0;
+
+            registered = dl.registerNewUser(name, email, password);
+
+            if(registered==0)
+            {
+                userRegistered = false;
+            }
+            else if(registered==1)
+            {
+                userRegistered = true;
+            }
+
+            return userRegistered;
+        }
     }
 }

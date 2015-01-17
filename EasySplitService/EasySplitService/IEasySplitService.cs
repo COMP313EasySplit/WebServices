@@ -16,5 +16,9 @@ namespace EasySplitService
         [OperationContract]
         [WebGet(UriTemplate = "/login/{id}/{password}")]
         bool AuthenticateUser(string id,string password);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/registerNewUser/{name}/{email}/{password}")]
+        bool RegisterNewUser(string name, string email,string password);
     }
 }
