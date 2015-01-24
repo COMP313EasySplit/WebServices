@@ -14,11 +14,22 @@ namespace EasySplitService
     {
 
         [OperationContract]
-        [WebGet(UriTemplate = "/login/{id}/{password}")]
+        [WebGet(UriTemplate = "/login?id={id}&password={password}")]
+        //[WebGet(UriTemplate = "/login/{id}/{password}")]
         bool AuthenticateUser(string id,string password);
 
         [OperationContract]
-        [WebGet(UriTemplate = "/registerNewUser/{name}/{email}/{password}")]
-        bool RegisterNewUser(string name, string email,string password);
+        [WebGet(UriTemplate = "/registerNewUser?firstName={firstName}&lastName={lastName}&email={email}&password={password}")]
+        bool RegisterNewUser(string firstName, string lastName, string email,string password);
+
+
+        //This is incomplete. Implement checking of category before adding to see if it exists.
+        [OperationContract]
+        [WebGet(UriTemplate = "/addCategory?name={name}&userid={userid}")]
+        bool AddNewCategory(string name, int userid);
+
+        //[OperationContract]
+        //[WebGet(UriTemplate = "/addCategory?name={name}&userid={userid}")]
+        //bool AddNewCategory(string name, int userid);
     }
 }

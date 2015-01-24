@@ -26,7 +26,7 @@ namespace EasySplitService
             {
                 while (dataReader.Read())
                 {
-                    if (password.Trim() == dataReader.GetValue(3).ToString())
+                    if (password.Trim() == dataReader.GetValue(4).ToString())
                     {
                         found = true;
                         con.Close();
@@ -44,18 +44,35 @@ namespace EasySplitService
             return found;
         }
 
-        public int registerNewUser(string name, string email, string password)
+        public int registerNewUser(string firstName, string lastName, string email, string password)
         {
             int registered = 0;
 
-            SqlCommand cmd = new SqlCommand("INSERT INTO TUser (Name, Email, Passkey) VALUES (@Name, @Email, @Passkey)");
+            SqlCommand cmd = new SqlCommand("INSERT INTO TUser (Firstname, Lastname, Email, Password) VALUES (@Firstname, @Lastname, @Email, @Password)");
             cmd.CommandType = CommandType.Text;
             cmd.Connection = con;
-            cmd.Parameters.AddWithValue("@Name", name);
+            cmd.Parameters.AddWithValue("@Firstname", firstName);
+            cmd.Parameters.AddWithValue("@Lastname", lastName);
             cmd.Parameters.AddWithValue("@Email", email);
-            cmd.Parameters.AddWithValue("@Passkey", password);
+            cmd.Parameters.AddWithValue("@Password", password);
             con.Open();
             registered=cmd.ExecuteNonQuery();
+            con.Close();
+
+            return registered;
+        }
+
+        public int addNewCategory(string name, int userid)
+        {
+            int registered = 0;
+
+            SqlCommand cmd = new SqlCommand("INSERT INTO TCategory (Category_Name, User_Id) VALUES (@Category_Name, @User_Id)");
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@Category_Name", name);
+            cmd.Parameters.AddWithValue("@User_Id", userid);
+            con.Open();
+            registered = cmd.ExecuteNonQuery();
             con.Close();
 
             return registered;
