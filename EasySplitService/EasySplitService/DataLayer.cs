@@ -77,5 +77,33 @@ namespace EasySplitService
 
             return registered;
         }
+
+
+        public void findFriends(string input)
+        {
+            SqlCommand command = new SqlCommand("Select Firstname+' '+Lastname, Email from TUser where Email like '%" + input + "%' or Firstname like '%" + input + "%' or Lastname like '%" + input + "%'", con);
+            SqlDataReader dataReader;
+            con.Open();
+            dataReader = command.ExecuteReader();
+        }
+
+        //Method to create a new event
+        public int AddEvent(string name, DateTime date, double budget)
+        {
+            int added = 0;
+
+            SqlCommand cmd = new SqlCommand("INSERT INTO TEvent (Name, Date, Budget) VALUES (@Name, @Date, @Budget)");
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = con;
+            
+            cmd.Parameters.AddWithValue("@Name", name);
+            cmd.Parameters.AddWithValue("@Date", date);
+            cmd.Parameters.AddWithValue("@Budget", budget);
+            con.Open();
+            added = cmd.ExecuteNonQuery();
+            con.Close();
+
+            return added;
+        }
     }
 }

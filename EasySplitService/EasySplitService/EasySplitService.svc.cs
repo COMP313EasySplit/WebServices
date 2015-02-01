@@ -14,6 +14,7 @@ namespace EasySplitService
     {
         DataLayer dl = new DataLayer();
 
+
         public bool AuthenticateUser(string id, string password)
         {
             bool userAuthenticated = false;
@@ -22,6 +23,7 @@ namespace EasySplitService
 
             return userAuthenticated;
         }
+
 
         public bool RegisterNewUser(string firstName, string lastName, string email, string password)
         {
@@ -48,6 +50,7 @@ namespace EasySplitService
             return userRegistered;
         }
 
+
         public bool AddNewCategory(string name, int userid)
         {
             bool categoryAdded = false;
@@ -73,6 +76,32 @@ namespace EasySplitService
             }
 
             return categoryAdded;
+        }
+
+
+        public void FindFriends(string input)
+        {
+            dl.findFriends(input);
+        }
+
+        //Method to create a new event
+        public bool AddEvent(string name, DateTime date, double budget)
+        {
+            int rowsAfftected = 0;
+            bool eventCreated = false;
+
+            rowsAfftected = dl.AddEvent(name, date, budget);
+
+            if (rowsAfftected == 0)
+            {
+                eventCreated = false;
+            }
+            else if (rowsAfftected == 1)
+            {
+                eventCreated = true;
+            }
+
+            return eventCreated;
         }
     }
 }

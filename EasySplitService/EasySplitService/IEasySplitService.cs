@@ -12,12 +12,13 @@ namespace EasySplitService
     [ServiceContract]
     public interface IEasySplitService
     {
-
+        //Method to authenticate login
         [OperationContract]
         [WebGet(UriTemplate = "/login?id={id}&password={password}")]
         //[WebGet(UriTemplate = "/login/{id}/{password}")]
         bool AuthenticateUser(string id,string password);
 
+        //Method to register a new user
         [OperationContract]
         [WebGet(UriTemplate = "/registerNewUser?firstName={firstName}&lastName={lastName}&email={email}&password={password}")]
         bool RegisterNewUser(string firstName, string lastName, string email,string password);
@@ -28,8 +29,15 @@ namespace EasySplitService
         [WebGet(UriTemplate = "/addCategory?name={name}&userid={userid}")]
         bool AddNewCategory(string name, int userid);
 
-        //[OperationContract]
-        //[WebGet(UriTemplate = "/addCategory?name={name}&userid={userid}")]
-        //bool AddNewCategory(string name, int userid);
+        [OperationContract]
+        [WebGet(UriTemplate = "/findFriends?input={input}")]
+        void FindFriends(string input);
+
+        //Method to create a new event
+        [OperationContract]
+        [WebGet(UriTemplate = "/addEvent?name={name}&date={date}&budget={budget}")]
+        bool AddEvent(string name, DateTime date, double budget);
+
+
     }
 }
