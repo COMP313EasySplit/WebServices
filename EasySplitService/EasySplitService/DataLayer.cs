@@ -88,22 +88,60 @@ namespace EasySplitService
         }
 
         //Method to create a new event
-        public int AddEvent(string name, DateTime date, double budget)
+        public int AddEvent(string name, DateTime date, double budget,int hostid)
         {
             int added = 0;
 
-            SqlCommand cmd = new SqlCommand("INSERT INTO TEvent (Name, Date, Budget) VALUES (@Name, @Date, @Budget)");
+            SqlCommand cmd = new SqlCommand("INSERT INTO TEvent (Name, DateCreated, Budget, Status, HostId) VALUES (@Name, @DateCreated, @Budget, @Status, @hostId)");
             cmd.CommandType = CommandType.Text;
             cmd.Connection = con;
             
             cmd.Parameters.AddWithValue("@Name", name);
-            cmd.Parameters.AddWithValue("@Date", date);
+            cmd.Parameters.AddWithValue("@DateCreated", date);
             cmd.Parameters.AddWithValue("@Budget", budget);
+            cmd.Parameters.AddWithValue("@Status", "open");
+            cmd.Parameters.AddWithValue("@HostId", hostid);
             con.Open();
             added = cmd.ExecuteNonQuery();
             con.Close();
 
             return added;
+        }
+
+        //Method to close an event
+        public int CloseEvent(int eventid)
+        {
+            int closed = 0;
+
+            SqlCommand cmd = new SqlCommand("UPDATE TEVENT SET Status='closed' WHERE EventId=@EventId");
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = con;
+
+            cmd.Parameters.AddWithValue("@EventId", eventid);
+            con.Open();
+            closed = cmd.ExecuteNonQuery();
+            con.Close();
+
+            return closed;
+        }
+
+        //Method to update an event
+        public int UpdateEvent(int eventid, string name, double budget)
+        {
+            int closed = 0;
+
+            SqlCommand cmd = new SqlCommand("UPDATE TEVENT SET Name=@Name, Budget=@Budget WHERE EventId=@EventId and Status='open'");
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = con;
+
+            cmd.Parameters.AddWithValue("@EventId", eventid);
+            cmd.Parameters.AddWithValue("@Name", name);
+            cmd.Parameters.AddWithValue("@Budget", budget);
+            con.Open();
+            closed = cmd.ExecuteNonQuery();
+            con.Close();
+
+            return closed;
         }
     }
 }

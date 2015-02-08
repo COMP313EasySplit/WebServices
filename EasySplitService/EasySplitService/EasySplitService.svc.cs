@@ -85,13 +85,22 @@ namespace EasySplitService
         }
 
         //Method to create a new event
-        public bool AddEvent(string name, DateTime date, double budget)
+        public bool AddEvent(string name, DateTime date, double budget, int hostid)
         {
             int rowsAfftected = 0;
             bool eventCreated = false;
 
-            rowsAfftected = dl.AddEvent(name, date, budget);
-
+            //Check for null inputs
+            if (name == null || date == null || budget == null || hostid == null)
+            {
+                return eventCreated;
+            }
+            else
+            {
+                rowsAfftected = dl.AddEvent(name, date, budget, hostid);
+            }
+            
+            //Check if row was inserted in database
             if (rowsAfftected == 0)
             {
                 eventCreated = false;
@@ -102,6 +111,66 @@ namespace EasySplitService
             }
 
             return eventCreated;
+        }
+
+
+        //Method to close an event
+        public bool CloseEvent(int eventid)
+        {
+            int rowsAfftected = 0;
+            bool eventClosed = false;
+
+            //Check for null inputs
+            if (eventid == 0)
+            {
+                return eventClosed;
+            }
+            else
+            {
+                rowsAfftected = dl.CloseEvent(eventid);
+            }
+
+            //Check if row was inserted in database
+            if (rowsAfftected == 0)
+            {
+                eventClosed = false;
+            }
+            else if (rowsAfftected == 1)
+            {
+                eventClosed = true;
+            }
+
+            return eventClosed;
+        }
+
+
+        //Method to update an event
+        public bool UpdateEvent(int eventid, string name, double budget)
+        {
+            int rowsAfftected = 0;
+            bool eventUpdated = false;
+
+            //Check for null inputs
+            if (eventid == 0 || name == null || budget == null)
+            {
+                return eventUpdated;
+            }
+            else
+            {
+                rowsAfftected = dl.UpdateEvent(eventid,name,budget);
+            }
+
+            //Check if row was inserted in database
+            if (rowsAfftected == 0)
+            {
+                eventUpdated = false;
+            }
+            else if (rowsAfftected == 1)
+            {
+                eventUpdated = true;
+            }
+
+            return eventUpdated;
         }
     }
 }

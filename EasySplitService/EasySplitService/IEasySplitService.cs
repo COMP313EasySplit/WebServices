@@ -14,8 +14,7 @@ namespace EasySplitService
     {
         //Method to authenticate login
         [OperationContract]
-        [WebGet(UriTemplate = "/login?id={id}&password={password}")]
-        //[WebGet(UriTemplate = "/login/{id}/{password}")]
+        [WebGet(UriTemplate = "/login?id={id}&password={password}", ResponseFormat=WebMessageFormat.Json)]
         bool AuthenticateUser(string id,string password);
 
         //Method to register a new user
@@ -35,9 +34,17 @@ namespace EasySplitService
 
         //Method to create a new event
         [OperationContract]
-        [WebGet(UriTemplate = "/addEvent?name={name}&date={date}&budget={budget}")]
-        bool AddEvent(string name, DateTime date, double budget);
+        [WebGet(UriTemplate = "/addEvent?name={name}&date={date}&budget={budget}&hostid={hostid}")]
+        bool AddEvent(string name, DateTime date, double budget,int hostid);
 
+        //Method to close an event
+        [OperationContract]
+        [WebGet(UriTemplate = "/closeEvent?eventid={eventid}")]
+        bool CloseEvent(int eventid);
 
+        //Method to update an event
+        [OperationContract]
+        [WebGet(UriTemplate = "/updateEvent?eventid={eventid}&name={name}&budget={budget}")]
+        bool UpdateEvent(int eventid,string name, double budget);
     }
 }
