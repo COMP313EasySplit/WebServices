@@ -103,7 +103,7 @@ namespace EasySplitService
         //Method to update an event
         public int UpdateEvent(int eventid, string name, double budget)
         {
-            int closed = 0;
+            int updated = 0;
 
             SqlCommand cmd = new SqlCommand("UPDATE TEVENT SET Name=@Name, Budget=@Budget WHERE EventId=@EventId and Status='open'");
             cmd.CommandType = CommandType.Text;
@@ -113,10 +113,32 @@ namespace EasySplitService
             cmd.Parameters.AddWithValue("@Name", name);
             cmd.Parameters.AddWithValue("@Budget", budget);
             con.Open();
-            closed = cmd.ExecuteNonQuery();
+            updated = cmd.ExecuteNonQuery();
             con.Close();
 
-            return closed;
+            return updated;
+        }
+
+        //Method to create a new expense
+        public int AddExpense(int eventid, string name, DateTime date, double amount, string place, int originalpayer)
+        {
+            int added = 0;
+
+            SqlCommand cmd = new SqlCommand("INSERT INTO TExpense (EventId, Name, DateCreated, Amount, Place, OriginalPayer) VALUES (@EventId, @Name, @DateCreated, @Amount, @Place, @OriginalPayer)");
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = con;
+
+            cmd.Parameters.AddWithValue("@EventId", eventid);
+            cmd.Parameters.AddWithValue("@Name", name);
+            cmd.Parameters.AddWithValue("@DateCreated", date);
+            cmd.Parameters.AddWithValue("@Amount", amount);
+            cmd.Parameters.AddWithValue("@Place", place);
+            cmd.Parameters.AddWithValue("@OriginalPayer", originalpayer);
+            con.Open();
+            added = cmd.ExecuteNonQuery();
+            con.Close();
+
+            return added;
         }
     }
 }

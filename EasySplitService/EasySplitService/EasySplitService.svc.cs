@@ -138,5 +138,35 @@ namespace EasySplitService
 
             return eventUpdated;
         }
+
+
+        //Method to create a new expense
+        public bool AddExpense(int eventid, string name, DateTime date, double amount, string place, int originalpayer)
+        {
+            int rowsAfftected = 0;
+            bool expenseCreated = false;
+
+            //Check for null inputs
+            if (eventid==0 || name == null || date == null || place == null || originalpayer==0)
+            {
+                return expenseCreated;
+            }
+            else
+            {
+                rowsAfftected = dl.AddExpense(eventid, name, date, amount, place, originalpayer);
+            }
+
+            //Check if row was inserted in database
+            if (rowsAfftected == 0)
+            {
+                expenseCreated = false;
+            }
+            else if (rowsAfftected == 1)
+            {
+                expenseCreated = true;
+            }
+
+            return expenseCreated;
+        }
     }
 }

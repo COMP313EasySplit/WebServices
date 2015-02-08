@@ -36,5 +36,10 @@ namespace EasySplitService
         [OperationContract]
         [WebGet(UriTemplate = "/updateEvent?eventid={eventid}&name={name}&budget={budget}")]
         bool UpdateEvent(int eventid,string name, double budget);
+
+        //Method to create a new expense entry
+        [OperationContract]
+        [WebGet(UriTemplate = "/addExpense?eventid={eventid}&name={name}&date={date}&amount={amount}&place={place}&originalpayer={originalpayer}")]
+        bool AddExpense(int eventid, string name, DateTime date, double amount, string place, int originalpayer);
     }
 }
