@@ -22,16 +22,6 @@ namespace EasySplitService
         [WebGet(UriTemplate = "/registerNewUser?firstName={firstName}&lastName={lastName}&email={email}&password={password}")]
         bool RegisterNewUser(string firstName, string lastName, string email,string password);
 
-
-        //This is incomplete. Implement checking of category before adding to see if it exists.
-        [OperationContract]
-        [WebGet(UriTemplate = "/addCategory?name={name}&userid={userid}")]
-        bool AddNewCategory(string name, int userid);
-
-        [OperationContract]
-        [WebGet(UriTemplate = "/findFriends?input={input}")]
-        void FindFriends(string input);
-
         //Method to create a new event
         [OperationContract]
         [WebGet(UriTemplate = "/addEvent?name={name}&date={date}&budget={budget}&hostid={hostid}")]

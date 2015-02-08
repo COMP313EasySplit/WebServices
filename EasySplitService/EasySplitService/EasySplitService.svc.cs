@@ -50,40 +50,6 @@ namespace EasySplitService
             return userRegistered;
         }
 
-
-        public bool AddNewCategory(string name, int userid)
-        {
-            bool categoryAdded = false;
-            int rowsAfftected = 0;
-            string categoryName;
-
-            //Capatalize the first letter and the rest of the name to lower
-            categoryName = name.ToLower();
-            categoryName = (categoryName.First().ToString().ToUpper())+(categoryName.Substring(1));
-
-            //Check if the the category already excists for the user
-
-            //Add category to the database
-            rowsAfftected = dl.addNewCategory(categoryName, userid);
-
-            if(rowsAfftected==0)
-            {
-                categoryAdded = false;
-            }
-            else if (rowsAfftected == 1)
-            {
-                categoryAdded = true;
-            }
-
-            return categoryAdded;
-        }
-
-
-        public void FindFriends(string input)
-        {
-            dl.findFriends(input);
-        }
-
         //Method to create a new event
         public bool AddEvent(string name, DateTime date, double budget, int hostid)
         {

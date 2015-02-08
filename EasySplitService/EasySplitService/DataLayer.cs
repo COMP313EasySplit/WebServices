@@ -62,31 +62,6 @@ namespace EasySplitService
             return registered;
         }
 
-        public int addNewCategory(string name, int userid)
-        {
-            int registered = 0;
-
-            SqlCommand cmd = new SqlCommand("INSERT INTO TCategory (Category_Name, User_Id) VALUES (@Category_Name, @User_Id)");
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = con;
-            cmd.Parameters.AddWithValue("@Category_Name", name);
-            cmd.Parameters.AddWithValue("@User_Id", userid);
-            con.Open();
-            registered = cmd.ExecuteNonQuery();
-            con.Close();
-
-            return registered;
-        }
-
-
-        public void findFriends(string input)
-        {
-            SqlCommand command = new SqlCommand("Select Firstname+' '+Lastname, Email from TUser where Email like '%" + input + "%' or Firstname like '%" + input + "%' or Lastname like '%" + input + "%'", con);
-            SqlDataReader dataReader;
-            con.Open();
-            dataReader = command.ExecuteReader();
-        }
-
         //Method to create a new event
         public int AddEvent(string name, DateTime date, double budget,int hostid)
         {
