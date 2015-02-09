@@ -168,5 +168,64 @@ namespace EasySplitService
 
             return expenseCreated;
         }
+
+        //Method to update an expense
+        public bool UpdateExpense(int expenseid, double amount, int originalpayer)
+        {
+            int rowsAfftected = 0;
+            bool expenseUpdated = false;
+
+            //Check for null inputs
+            if (expenseid == 0 || amount == 0 || originalpayer == 0)
+            {
+                return expenseUpdated;
+            }
+            else
+            {
+                rowsAfftected = dl.UpdateExpense(expenseid, amount, originalpayer);
+            }
+
+            //Check if row was inserted in database
+            if (rowsAfftected == 0)
+            {
+                expenseUpdated = false;
+            }
+            else if (rowsAfftected == 1)
+            {
+                expenseUpdated = true;
+            }
+
+            return expenseUpdated;
+        }
+
+        //Method to delete an expense
+        public bool DeleteExpense(int expenseid)
+        {
+            int rowsAfftected = 0;
+            bool expenseDeleted = false;
+
+            //Check for null inputs
+            if (expenseid == 0)
+            {
+                return expenseDeleted;
+            }
+            else
+            {
+                rowsAfftected = dl.DeleteExpense(expenseid);
+            }
+
+            //Check if row was inserted in database
+            if (rowsAfftected == 0)
+            {
+                expenseDeleted = false;
+            }
+            else if (rowsAfftected == 1)
+            {
+                expenseDeleted = true;
+            }
+
+            return expenseDeleted;
+        }
+
     }
 }

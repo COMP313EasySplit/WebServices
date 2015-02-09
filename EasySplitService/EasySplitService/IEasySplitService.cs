@@ -41,5 +41,15 @@ namespace EasySplitService
         [OperationContract]
         [WebGet(UriTemplate = "/addExpense?eventid={eventid}&name={name}&date={date}&amount={amount}&place={place}&originalpayer={originalpayer}")]
         bool AddExpense(int eventid, string name, DateTime date, double amount, string place, int originalpayer);
+
+        //Method to update an expense entry
+        [OperationContract]
+        [WebGet(UriTemplate = "/updateExpense?expenseid={expenseid}&amount={amount}&originalpayer={originalpayer}")]
+        bool UpdateExpense(int expenseid, double amount, int originalpayer);
+
+        //Method to delete an expense entry
+        [OperationContract]
+        [WebGet(UriTemplate = "/deleteExpense?expenseid={expenseid}")]
+        bool DeleteExpense(int expenseid);
     }
 }

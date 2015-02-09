@@ -203,5 +203,67 @@ namespace EasySplitService
             }
             return added;
         }
+
+
+        //Method to update an expense
+        public int UpdateExpense(int expenseid, double amount, int originalpayer)
+        {
+            int updated = 0;
+            con.Open();
+            SqlTransaction transaction = con.BeginTransaction("UpdateExpense_Transaction");
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE TExpense  SET Amount=@Amount, OriginalPayer=@OriginalPayer WHERE ExpenseId=@ExpenseId");
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = con;
+                cmd.Transaction = transaction;
+
+                cmd.Parameters.AddWithValue("@Amount", amount);
+                cmd.Parameters.AddWithValue("@OriginalPayer", originalpayer);
+                cmd.Parameters.AddWithValue("@ExpenseId", expenseid);
+                updated = cmd.ExecuteNonQuery();
+                transaction.Commit();
+            }
+            catch (Exception e)
+            {
+                transaction.Rollback();
+            }
+            finally
+            {
+                con.Close();
+            }
+            return updated;
+        }
+
+
+        //Method to delete an expense
+        public int DeleteExpense(int expenseid)
+        {
+            int updated = 0;
+            con.Open();
+            SqlTransaction transaction = con.BeginTransaction("DeleteExpense_Transaction");
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand("DELETE TExpense WHERE ExpenseId=@ExpenseId");
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = con;
+                cmd.Transaction = transaction;
+
+                cmd.Parameters.AddWithValue("@ExpenseId", expenseid);
+                updated = cmd.ExecuteNonQuery();
+                transaction.Commit();
+            }
+            catch (Exception e)
+            {
+                transaction.Rollback();
+            }
+            finally
+            {
+                con.Close();
+            }
+            return updated;
+        }
     }
 }
