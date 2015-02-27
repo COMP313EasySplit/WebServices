@@ -54,7 +54,7 @@ namespace EasySplitService
 
         //Method to show all events for a participant
         [OperationContract]
-        [WebGet(UriTemplate = "/showParticipantEvents?hostid={hostid}")]
+        [WebGet(UriTemplate = "/showHostEvents?hostid={hostid}")]
         string ShowParticipantEvents(int hostid);
 
         //Method to show all events
