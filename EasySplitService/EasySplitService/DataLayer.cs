@@ -81,7 +81,6 @@ namespace EasySplitService
             int added = 0;
             con.Open();
             SqlTransaction transaction = con.BeginTransaction("AddEvent_Transaction");
-            string date = "GETDATE()";
 
             try
             {
@@ -91,7 +90,6 @@ namespace EasySplitService
                 cmd.Transaction = transaction;
 
                 cmd.Parameters.AddWithValue("@Name", name);
-                //cmd.Parameters.AddWithValue("@DateCreated", G);
                 cmd.Parameters.AddWithValue("@Budget", budget);
                 cmd.Parameters.AddWithValue("@Status", "open");
                 cmd.Parameters.AddWithValue("@HostId", hostid);
