@@ -52,6 +52,9 @@ namespace EasySplitService
         [WebGet(UriTemplate = "/deleteExpense?expenseid={expenseid}")]
         bool DeleteExpense(int expenseid);
 
-        //Method to add participants 
+        //Method to show all events for a participant
+        [OperationContract]
+        [WebGet(UriTemplate = "/showParticipantEvents?participantid={participantid}")]
+        string ShowParticipantEvents(int participantid);
     }
 }

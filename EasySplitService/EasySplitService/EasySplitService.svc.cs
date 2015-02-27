@@ -227,5 +227,14 @@ namespace EasySplitService
             return expenseDeleted;
         }
 
+        public String ShowParticipantEvents(int hostid)
+        {
+            String events = null;
+
+            events = dl.ShowHostEvents(hostid);
+
+            return events;
+        }
+
     }
 }
