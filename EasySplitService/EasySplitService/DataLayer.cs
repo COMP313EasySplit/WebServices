@@ -268,11 +268,10 @@ namespace EasySplitService
         }
 
 
-        //Method to list all events for a hosts
+        //Method to show all events for a hosts
         public String ShowHostEvents(int hostid)
         {
-            //int updated = 0;
-            
+
             SqlDataAdapter dataAdapter;
             DataSet dataSet= new DataSet("Events");
             String sqlCommand = null;
@@ -290,6 +289,47 @@ namespace EasySplitService
                 con.Open();
                 dataAdapter = new SqlDataAdapter(sqlCommand, con);
                 dataAdapter.Fill(dataSet,"Event");
+                dataSet.WriteXml(fileName);
+
+                xml.Load(fileName);
+                xml.WriteTo(tx);
+
+                events = sw.ToString();
+            }
+            catch (Exception e)
+            {
+                //Handle exception
+                //Log stack trace for exception in a text file
+            }
+            finally
+            {
+                con.Close();
+            }
+            return events;
+        }
+
+
+        //Method to show all events 
+        public String ShowAllEvents()
+        {
+
+            SqlDataAdapter dataAdapter;
+            DataSet dataSet = new DataSet("Events");
+            String sqlCommand = null;
+            StringWriter sw = new StringWriter();
+            XmlTextWriter tx = new XmlTextWriter(sw);
+            XmlDocument xml = new XmlDocument();
+            String rootPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            String fileName = rootPath + @"\Events.xml";
+            String events = null;
+
+            try
+            {
+                sqlCommand = "Select EventId,Name,DateCreated,Budget,Status from TEvent";
+
+                con.Open();
+                dataAdapter = new SqlDataAdapter(sqlCommand, con);
+                dataAdapter.Fill(dataSet, "Event");
                 dataSet.WriteXml(fileName);
 
                 xml.Load(fileName);

@@ -227,6 +227,8 @@ namespace EasySplitService
             return expenseDeleted;
         }
 
+
+        //Method to show all events for a participant
         public String ShowParticipantEvents(int hostid)
         {
             String events = null;
@@ -236,5 +238,15 @@ namespace EasySplitService
             return events;
         }
 
+
+        //Method to show all events
+        public String ShowAllEvents()
+        {
+            String events = null;
+
+            events = dl.ShowAllEvents();
+
+            return events;
+        }
     }
 }
