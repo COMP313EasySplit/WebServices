@@ -24,8 +24,8 @@ namespace EasySplitService
 
         //Method to create a new event
         [OperationContract]
-        [WebGet(UriTemplate = "/addEvent?name={name}&date={date}&budget={budget}&hostid={hostid}")]
-        bool AddEvent(string name, DateTime date, double budget,int hostid);
+        [WebGet(UriTemplate = "/addEvent?name={name}&budget={budget}&hostid={hostid}")]
+        bool AddEvent(string name, double budget,int hostid);
 
         //Method to close an event
         [OperationContract]
@@ -51,5 +51,7 @@ namespace EasySplitService
         [OperationContract]
         [WebGet(UriTemplate = "/deleteExpense?expenseid={expenseid}")]
         bool DeleteExpense(int expenseid);
+
+        //Method to add participants 
     }
 }

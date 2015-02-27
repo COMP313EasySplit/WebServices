@@ -55,11 +55,11 @@ namespace EasySplitService
                 SqlCommand cmd = new SqlCommand("INSERT INTO TUser (Firstname, Lastname, Email, Password) VALUES (@Firstname, @Lastname, @Email, @Password)");
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = con;
+                cmd.Transaction = transaction;
                 cmd.Parameters.AddWithValue("@Firstname", firstName);
                 cmd.Parameters.AddWithValue("@Lastname", lastName);
                 cmd.Parameters.AddWithValue("@Email", email);
                 cmd.Parameters.AddWithValue("@Password", password);
-                con.Open();
                 registered = cmd.ExecuteNonQuery();
                 transaction.Commit();
             }
@@ -76,24 +76,25 @@ namespace EasySplitService
         }
 
         //Method to create a new event
-        public int AddEvent(string name, DateTime date, double budget,int hostid)
+        public int AddEvent(string name, double budget,int hostid)
         {
             int added = 0;
             con.Open();
             SqlTransaction transaction = con.BeginTransaction("AddEvent_Transaction");
+            string date = "GETDATE()";
 
             try
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO TEvent (Name, DateCreated, Budget, Status, HostId) VALUES (@Name, @DateCreated, @Budget, @Status, @hostId)");
+                SqlCommand cmd = new SqlCommand("INSERT INTO TEvent (Name, DateCreated, Budget, Status, HostId) VALUES (@Name, GETDATE(), @Budget, @Status, @hostId)");
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = con;
+                cmd.Transaction = transaction;
 
                 cmd.Parameters.AddWithValue("@Name", name);
-                cmd.Parameters.AddWithValue("@DateCreated", date);
+                //cmd.Parameters.AddWithValue("@DateCreated", G);
                 cmd.Parameters.AddWithValue("@Budget", budget);
                 cmd.Parameters.AddWithValue("@Status", "open");
                 cmd.Parameters.AddWithValue("@HostId", hostid);
-                con.Open();
                 added = cmd.ExecuteNonQuery();
                 transaction.Commit();
             }
@@ -121,9 +122,9 @@ namespace EasySplitService
                 SqlCommand cmd = new SqlCommand("UPDATE TEVENT SET Status='closed' WHERE EventId=@EventId");
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = con;
+                cmd.Transaction = transaction;
 
                 cmd.Parameters.AddWithValue("@EventId", eventid);
-                con.Open();
                 closed = cmd.ExecuteNonQuery();
                 transaction.Commit();
             }
@@ -150,11 +151,11 @@ namespace EasySplitService
                 SqlCommand cmd = new SqlCommand("UPDATE TEVENT SET Name=@Name, Budget=@Budget WHERE EventId=@EventId and Status='open'");
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = con;
+                cmd.Transaction = transaction;
 
                 cmd.Parameters.AddWithValue("@EventId", eventid);
                 cmd.Parameters.AddWithValue("@Name", name);
                 cmd.Parameters.AddWithValue("@Budget", budget);
-                con.Open();
                 updated = cmd.ExecuteNonQuery();
                 transaction.Commit();
             }
