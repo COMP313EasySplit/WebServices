@@ -67,6 +67,7 @@
     <Compile Include="EasySplitService.svc.cs">
       <DependentUpon>EasySplitService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Event.cs" />
     <Compile Include="IEasySplitService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

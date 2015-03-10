@@ -269,7 +269,7 @@ namespace EasySplitService
 
 
         //Method to show all events for a hosts
-        public String ShowHostEvents(int hostid)
+        public Event[] ShowHostEvents(int hostid)
         {
 
             SqlDataAdapter dataAdapter;
@@ -280,7 +280,8 @@ namespace EasySplitService
             XmlDocument xml= new XmlDocument();
             String rootPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             String fileName = rootPath + @"\Event_Host" + hostid + ".xml";
-            String events = null;
+            //String events = null;
+            
 
             try
             {
@@ -289,23 +290,45 @@ namespace EasySplitService
                 con.Open();
                 dataAdapter = new SqlDataAdapter(sqlCommand, con);
                 dataAdapter.Fill(dataSet,"Event");
-                dataSet.WriteXml(fileName);
+                
+                int size=dataSet.Tables["Event"].Rows.Count;
+                Event[] events=new Event[size];
+                int count = 0;
 
-                xml.Load(fileName);
-                xml.WriteTo(tx);
+                
+                foreach(DataRow dr in dataSet.Tables["Event"].Rows)
+                {
+                    Event objEvent= new Event();
+                    objEvent.EventId=int.Parse(dr["EventId"].ToString());
+                    objEvent.Name=dr["Name"].ToString();
+                    objEvent.DateCreated=DateTime.Parse(dr["DateCreated"].ToString());
+                    objEvent.Budget=double.Parse(dr["Budget"].ToString());
+                    objEvent.Status=dr["Status"].ToString();
 
-                events = sw.ToString();
+                    events[count] = objEvent;
+                    count++;
+                }
+                
+                
+                
+                //dataSet.WriteXml(fileName);
+
+                //xml.Load(fileName);
+                //xml.WriteTo(tx);
+
+                //events = sw.ToString();
+                return events;
             }
             catch (Exception e)
             {
                 //Handle exception
                 //Log stack trace for exception in a text file
+                return null;
             }
             finally
             {
                 con.Close();
             }
-            return events;
         }
 
 

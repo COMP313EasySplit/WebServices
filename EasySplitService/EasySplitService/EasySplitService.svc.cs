@@ -229,18 +229,18 @@ namespace EasySplitService
 
 
         //Method to show all events for a participant
-        public String ShowParticipantEvents(int hostid)
+        public Event[] ShowHostEvents(int hostid)
         {
-            String events = null;
+            //String events = null;
 
-            events = dl.ShowHostEvents(hostid);
+            Event[] events = dl.ShowHostEvents(hostid);
 
             return events;
         }
 
 
         //Method to show all events
-        public String ShowAllEvents()
+        public string ShowAllEvents()
         {
             String events = null;
 
