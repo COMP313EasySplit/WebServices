@@ -51,7 +51,7 @@ namespace EasySplitService
         }
 
         //Method to create a new event
-        public bool AddEvent(string name, double budget, int hostid)
+        public bool AddEvent(string name, string budget, string hostid)
         {
             int rowsAfftected = 0;
             bool eventCreated = false;
@@ -81,13 +81,13 @@ namespace EasySplitService
 
 
         //Method to close an event
-        public bool CloseEvent(int eventid)
+        public bool CloseEvent(string eventid)
         {
             int rowsAfftected = 0;
             bool eventClosed = false;
 
             //Check for null inputs
-            if (eventid == 0)
+            if (eventid.Equals("0"))
             {
                 return eventClosed;
             }
@@ -111,13 +111,13 @@ namespace EasySplitService
 
 
         //Method to update an event
-        public bool UpdateEvent(int eventid, string name, double budget)
+        public bool UpdateEvent(string eventid, string name, string budget)
         {
             int rowsAfftected = 0;
             bool eventUpdated = false;
 
             //Check for null inputs
-            if (eventid == 0 || name == null || budget == null)
+            if (eventid == null || name == null || budget == null)
             {
                 return eventUpdated;
             }
@@ -141,13 +141,13 @@ namespace EasySplitService
 
 
         //Method to create a new expense
-        public bool AddExpense(int eventid, string name, DateTime date, double amount, string place, int originalpayer)
+        public bool AddExpense(string eventid, string name, string date, string amount, string place, string originalpayer)
         {
             int rowsAfftected = 0;
             bool expenseCreated = false;
 
             //Check for null inputs
-            if (eventid==0 || name == null || date == null || place == null || originalpayer==0)
+            if (eventid==null || name == null || date == null || place == null || originalpayer==null)
             {
                 return expenseCreated;
             }
@@ -170,13 +170,13 @@ namespace EasySplitService
         }
 
         //Method to update an expense
-        public bool UpdateExpense(int expenseid, double amount, int originalpayer)
+        public bool UpdateExpense(string expenseid, string amount, string originalpayer)
         {
             int rowsAfftected = 0;
             bool expenseUpdated = false;
 
             //Check for null inputs
-            if (expenseid == 0 || amount == 0 || originalpayer == 0)
+            if (expenseid == null || amount == null || originalpayer == null)
             {
                 return expenseUpdated;
             }
@@ -199,13 +199,13 @@ namespace EasySplitService
         }
 
         //Method to delete an expense
-        public bool DeleteExpense(int expenseid)
+        public bool DeleteExpense(string expenseid)
         {
             int rowsAfftected = 0;
             bool expenseDeleted = false;
 
             //Check for null inputs
-            if (expenseid == 0)
+            if (expenseid == null)
             {
                 return expenseDeleted;
             }
@@ -229,7 +229,7 @@ namespace EasySplitService
 
 
         //Method to show all events for a participant
-        public Event[] ShowHostEvents(int hostid)
+        public Event[] ShowHostEvents(string hostid)
         {
             //String events = null;
 

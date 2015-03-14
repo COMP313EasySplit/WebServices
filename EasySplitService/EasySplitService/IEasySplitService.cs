@@ -14,48 +14,48 @@ namespace EasySplitService
     {
         //Method to authenticate login
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/login?id={id}&password={password}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
-        bool AuthenticateUser(string id,string password);
+        [WebInvoke(Method = "POST", UriTemplate = "login/{id}/{password}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        bool AuthenticateUser(string id, string password);
 
         //Method to register a new user
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/registerNewUser?firstName={firstName}&lastName={lastName}&email={email}&password={password}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
-        bool RegisterNewUser(string firstName, string lastName, string email,string password);
+        [WebInvoke(Method = "POST", UriTemplate = "registerNewUser/{firstName}/{lastName}/{email}/{password}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        bool RegisterNewUser(string firstName, string lastName, string email, string password);
 
         //Method to create a new event
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/addEvent?name={name}&budget={budget}&hostid={hostid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
-        bool AddEvent(string name, double budget,int hostid);
+        [WebInvoke(Method = "POST", UriTemplate = "addEvent/{name}/{budget}/{hostid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        bool AddEvent(string name, string budget, string hostid);
 
         //Method to close an event
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/closeEvent?eventid={eventid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
-        bool CloseEvent(int eventid);
+        [WebInvoke(Method = "POST", UriTemplate = "CloseEvent/{eventid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        bool CloseEvent(string eventid);
 
         //Method to update an event
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/updateEvent?eventid={eventid}&name={name}&budget={budget}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
-        bool UpdateEvent(int eventid,string name, double budget);
+        [WebInvoke(Method = "POST", UriTemplate = "updateEvent/{eventid}/{name}/{budget}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        bool UpdateEvent(string eventid, string name, string budget);
 
         //Method to create a new expense entry
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/addExpense?eventid={eventid}&name={name}&date={date}&amount={amount}&place={place}&originalpayer={originalpayer}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
-        bool AddExpense(int eventid, string name, DateTime date, double amount, string place, int originalpayer);
+        [WebInvoke(Method = "POST", UriTemplate = "addExpense/{eventid}/{name}/{date}/{amount}/{place}/{originalpayer}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        bool AddExpense(string eventid, string name, string date, string amount, string place, string originalpayer);
 
         //Method to update an expense entry
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/updateExpense?expenseid={expenseid}&amount={amount}&originalpayer={originalpayer}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
-        bool UpdateExpense(int expenseid, double amount, int originalpayer);
+        [WebInvoke(Method = "POST", UriTemplate = "updateExpense/{expenseid}/{amount}/{originalpayer}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        bool UpdateExpense(string expenseid, string amount, string originalpayer);
 
         //Method to delete an expense entry
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/deleteExpense?expenseid={expenseid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
-        bool DeleteExpense(int expenseid);
+        [WebInvoke(Method = "POST", UriTemplate = "deleteExpense/{expenseid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        bool DeleteExpense(string expenseid);
 
         //Method to show all events for a participant
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/showHostEvents?hostid={hostid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
-        Event[] ShowHostEvents(int hostid);
+        [WebInvoke(Method = "POST", UriTemplate = "showHostEvents/{hostid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        Event[] ShowHostEvents(string hostid);
 
         //Method to show all events
         [OperationContract]

@@ -78,7 +78,7 @@ namespace EasySplitService
         }
 
         //Method to create a new event
-        public int AddEvent(string name, double budget,int hostid)
+        public int AddEvent(string name, string budget, string hostid)
         {
             int added = 0;
             con.Open();
@@ -111,7 +111,7 @@ namespace EasySplitService
         }
 
         //Method to close an event
-        public int CloseEvent(int eventid)
+        public int CloseEvent(string eventid)
         {
             int closed = 0;
             con.Open();
@@ -140,7 +140,7 @@ namespace EasySplitService
         }
 
         //Method to update an event
-        public int UpdateEvent(int eventid, string name, double budget)
+        public int UpdateEvent(string eventid, string name, string budget)
         {
             int updated = 0;
             con.Open();
@@ -172,7 +172,7 @@ namespace EasySplitService
         }
 
         //Method to create a new expense
-        public int AddExpense(int eventid, string name, DateTime date, double amount, string place, int originalpayer)
+        public int AddExpense(string eventid, string name, string date, string amount, string place, string originalpayer)
         {
             int added = 0;
             con.Open();
@@ -207,7 +207,7 @@ namespace EasySplitService
 
 
         //Method to update an expense
-        public int UpdateExpense(int expenseid, double amount, int originalpayer)
+        public int UpdateExpense(string expenseid, string amount, string originalpayer)
         {
             int updated = 0;
             con.Open();
@@ -239,7 +239,7 @@ namespace EasySplitService
 
 
         //Method to delete an expense
-        public int DeleteExpense(int expenseid)
+        public int DeleteExpense(string expenseid)
         {
             int updated = 0;
             con.Open();
@@ -269,7 +269,7 @@ namespace EasySplitService
 
 
         //Method to show all events for a hosts
-        public Event[] ShowHostEvents(int hostid)
+        public Event[] ShowHostEvents(string hostid)
         {
 
             SqlDataAdapter dataAdapter;
