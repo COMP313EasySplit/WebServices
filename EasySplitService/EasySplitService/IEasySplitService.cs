@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasySplitService.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -62,6 +63,9 @@ namespace EasySplitService
         [WebInvoke(Method = "POST", UriTemplate = "getParticipants/{eventid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         Participants[] ShowEventParticipants(string eventid);
 
-
+        //Method to show all expenses for an event
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "getExpense/{eventid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        Expense[] ShowEventExpense(string eventid);
     }
 }

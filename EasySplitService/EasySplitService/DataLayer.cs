@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasySplitService.Entities;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -275,14 +276,7 @@ namespace EasySplitService
             SqlDataAdapter dataAdapter;
             DataSet dataSet= new DataSet("Events");
             String sqlCommand = null;
-            StringWriter sw = new StringWriter();
-            XmlTextWriter tx = new XmlTextWriter(sw);
-            XmlDocument xml= new XmlDocument();
-            String rootPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            String fileName = rootPath + @"\Event_Host" + hostid + ".xml";
-            //String events = null;
             
-
             try
             {
                 sqlCommand = "Select EventId,Name,DateCreated,Budget,Status from TEvent where HostId=" + hostid;
@@ -334,7 +328,7 @@ namespace EasySplitService
 
             try
             {
-                sqlCommand = "  Select EM.UserId, U.Firstname, U.Lastname, U.Email from TEventMembers EM join TUser U on EM.UserId=U.User_Id where EM.EventId=" + eventid;
+                sqlCommand = "Select EM.UserId, U.Firstname, U.Lastname, U.Email from TEventMembers EM join TUser U on EM.UserId=U.User_Id where EM.EventId=" + eventid;
 
                 con.Open();
                 dataAdapter = new SqlDataAdapter(sqlCommand, con);
@@ -358,6 +352,55 @@ namespace EasySplitService
                 }
 
                 return participants;
+            }
+            catch (Exception e)
+            {
+                //Handle exception
+                //Log stack trace for exception in a text file
+                return null;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+
+        //Method to show all expenses for an event
+        public Expense[] ShowEventExpense(string eventid)
+        {
+
+            SqlDataAdapter dataAdapter;
+            DataSet dataSet = new DataSet("Expenses");
+            String sqlCommand = null;
+
+            try
+            {
+                sqlCommand = "Select ExpenseId, Name,Amount,Place,OriginalPayer from TExpense where EventId=" + eventid;
+
+                con.Open();
+                dataAdapter = new SqlDataAdapter(sqlCommand, con);
+                dataAdapter.Fill(dataSet, "Expense");
+
+                int size = dataSet.Tables["Expense"].Rows.Count;
+                Expense[] expenses = new Expense[size];
+                int count = 0;
+
+
+                foreach (DataRow dr in dataSet.Tables["Expense"].Rows)
+                {
+                    Expense objExpense = new Expense();
+                    objExpense.ExpenseID = int.Parse(dr["ExpenseId"].ToString());
+                    objExpense.Name = dr["Name"].ToString();
+                    objExpense.Amount = double.Parse(dr["Amount"].ToString());
+                    objExpense.Place = dr["Place"].ToString();
+                    objExpense.PayerID = int.Parse(dr["OriginalPayer"].ToString());
+
+                    expenses[count] = objExpense;
+                    count++;
+                }
+
+                return expenses;
             }
             catch (Exception e)
             {

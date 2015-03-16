@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasySplitService.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -243,6 +244,15 @@ namespace EasySplitService
             Participants[] participants = dl.ShowEventParticipants(eventid);
 
             return participants;
+        }
+
+
+        //Method to show all expense for an event
+        public Expense[] ShowEventExpense(string eventid)
+        {
+            Expense[] expenses = dl.ShowEventExpense(eventid);
+
+            return expenses;
         }
     }
 }
