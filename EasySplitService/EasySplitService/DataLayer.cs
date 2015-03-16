@@ -376,7 +376,7 @@ namespace EasySplitService
 
             try
             {
-                sqlCommand = "Select ExpenseId, Name,Amount,Place,OriginalPayer from TExpense where EventId=" + eventid;
+                sqlCommand = "Select E.ExpenseId, E.Name, E.Amount, E.Place, E.DateCreated, U.User_Id, U.Firstname, U.Lastname, U.Email from TExpense E JOIN TUser U ON E.OriginalPayer=U.User_Id where E.EventId=" + eventid;
 
                 con.Open();
                 dataAdapter = new SqlDataAdapter(sqlCommand, con);
@@ -394,8 +394,11 @@ namespace EasySplitService
                     objExpense.Name = dr["Name"].ToString();
                     objExpense.Amount = double.Parse(dr["Amount"].ToString());
                     objExpense.Place = dr["Place"].ToString();
-                    objExpense.PayerID = int.Parse(dr["OriginalPayer"].ToString());
-
+                    objExpense.DateCreated = dr["DateCreated"].ToString();
+                    objExpense.User.Userid = int.Parse(dr["User_Id"].ToString());
+                    objExpense.User.Firstname = dr["Firstname"].ToString();
+                    objExpense.User.Lastname = dr["Lastname"].ToString();
+                    objExpense.User.Email = dr["Email"].ToString();
                     expenses[count] = objExpense;
                     count++;
                 }

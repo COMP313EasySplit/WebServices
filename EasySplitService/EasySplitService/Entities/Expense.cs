@@ -7,9 +7,23 @@ namespace EasySplitService.Entities
 {
     public class Expense
     {
-        private int expenseID, payerID;
-        private string name, place;
+        private int expenseID;
+        private string name, place, dateCreated;
         private double amount;
+        private Participants user = new Participants();
+
+        public Participants User
+        {
+            get { return user; }
+            set { user = value; }
+        }
+
+
+        public string DateCreated
+        {
+            get { return dateCreated; }
+            set { dateCreated = value; }
+        }
 
         public double Amount
         {
@@ -26,11 +40,6 @@ namespace EasySplitService.Entities
         {
             get { return name; }
             set { name = value; }
-        }
-        public int PayerID
-        {
-            get { return payerID; }
-            set { payerID = value; }
         }
 
         public int ExpenseID
