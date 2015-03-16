@@ -308,15 +308,7 @@ namespace EasySplitService
                     events[count] = objEvent;
                     count++;
                 }
-                
-                
-                
-                //dataSet.WriteXml(fileName);
 
-                //xml.Load(fileName);
-                //xml.WriteTo(tx);
-
-                //events = sw.ToString();
                 return events;
             }
             catch (Exception e)
@@ -332,44 +324,51 @@ namespace EasySplitService
         }
 
 
-        //Method to show all events 
-        public String ShowAllEvents()
+        //Method to show all participants for an event
+        public Participants[] ShowEventParticipants(string eventid)
         {
 
             SqlDataAdapter dataAdapter;
-            DataSet dataSet = new DataSet("Events");
+            DataSet dataSet = new DataSet("Participants");
             String sqlCommand = null;
-            StringWriter sw = new StringWriter();
-            XmlTextWriter tx = new XmlTextWriter(sw);
-            XmlDocument xml = new XmlDocument();
-            String rootPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            String fileName = rootPath + @"\Events.xml";
-            String events = null;
 
             try
             {
-                sqlCommand = "Select EventId,Name,DateCreated,Budget,Status from TEvent";
+                sqlCommand = "  Select EM.UserId, U.Firstname, U.Lastname, U.Email from TEventMembers EM join TUser U on EM.UserId=U.User_Id where EM.EventId=" + eventid;
 
                 con.Open();
                 dataAdapter = new SqlDataAdapter(sqlCommand, con);
-                dataAdapter.Fill(dataSet, "Event");
-                dataSet.WriteXml(fileName);
+                dataAdapter.Fill(dataSet, "Participant");
 
-                xml.Load(fileName);
-                xml.WriteTo(tx);
+                int size = dataSet.Tables["Participant"].Rows.Count;
+                Participants[] participants = new Participants[size];
+                int count = 0;
 
-                events = sw.ToString();
+
+                foreach (DataRow dr in dataSet.Tables["Participant"].Rows)
+                {
+                    Participants objParticipant = new Participants();
+                    objParticipant.Userid = int.Parse(dr["UserId"].ToString());
+                    objParticipant.Firstname = dr["Firstname"].ToString();
+                    objParticipant.Lastname = dr["Lastname"].ToString();
+                    objParticipant.Email = dr["Email"].ToString();
+
+                    participants[count] = objParticipant;
+                    count++;
+                }
+
+                return participants;
             }
             catch (Exception e)
             {
                 //Handle exception
                 //Log stack trace for exception in a text file
+                return null;
             }
             finally
             {
                 con.Close();
             }
-            return events;
         }
     }
 }
