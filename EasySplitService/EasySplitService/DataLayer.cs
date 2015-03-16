@@ -413,5 +413,53 @@ namespace EasySplitService
                 con.Close();
             }
         }
+
+
+        //Method to show all participants for an host as history
+        public Participants[] ShowParticipantHistory(string hostid)
+        {
+
+            SqlDataAdapter dataAdapter;
+            DataSet dataSet = new DataSet("Participants");
+            String sqlCommand = null;
+
+            try
+            {
+                sqlCommand = "Select EM.UserId, U.Firstname, U.Lastname, U.Email from TEventMembers EM join TUser U on EM.UserId=U.User_Id where EM.EventId IN (select eventid from TEvent where hostid=" + hostid + ")";
+
+                con.Open();
+                dataAdapter = new SqlDataAdapter(sqlCommand, con);
+                dataAdapter.Fill(dataSet, "Participant");
+
+                int size = dataSet.Tables["Participant"].Rows.Count;
+                Participants[] participants = new Participants[size];
+                int count = 0;
+
+
+                foreach (DataRow dr in dataSet.Tables["Participant"].Rows)
+                {
+                    Participants objParticipant = new Participants();
+                    objParticipant.Userid = int.Parse(dr["UserId"].ToString());
+                    objParticipant.Firstname = dr["Firstname"].ToString();
+                    objParticipant.Lastname = dr["Lastname"].ToString();
+                    objParticipant.Email = dr["Email"].ToString();
+
+                    participants[count] = objParticipant;
+                    count++;
+                }
+
+                return participants;
+            }
+            catch (Exception e)
+            {
+                //Handle exception
+                //Log stack trace for exception in a text file
+                return null;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
     }
 }

@@ -67,5 +67,10 @@ namespace EasySplitService
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "getExpense/{eventid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         Expense[] ShowEventExpense(string eventid);
+
+        //Method to show all participants for an host as history
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "getParticipantByHost/{hostid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        Participants[] ShowParticipantHistory(string hostid);
     }
 }

@@ -254,5 +254,14 @@ namespace EasySplitService
 
             return expenses;
         }
+
+
+        //Method to show all participants for an host as history
+        public Participants[] ShowParticipantHistory(string hostid)
+        {
+            Participants[] participants = dl.ShowParticipantHistory(hostid);
+
+            return participants;
+        }
     }
 }
