@@ -295,7 +295,7 @@ namespace EasySplitService
                     Event objEvent= new Event();
                     objEvent.EventId=int.Parse(dr["EventId"].ToString());
                     objEvent.Name=dr["Name"].ToString();
-                    objEvent.DateCreated=DateTime.Parse(dr["DateCreated"].ToString());
+                    objEvent.DateCreated=dr["DateCreated"].ToString();
                     objEvent.Budget=double.Parse(dr["Budget"].ToString());
                     objEvent.Status=dr["Status"].ToString();
 

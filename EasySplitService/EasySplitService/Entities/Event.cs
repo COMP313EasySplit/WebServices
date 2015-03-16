@@ -24,13 +24,14 @@ namespace EasySplitService
         }
 
 
-        DateTime dateCreated;
-        public DateTime DateCreated
+        string dateCreated;
+
+        public string DateCreated
         {
             get { return dateCreated; }
             set { dateCreated = value; }
         }
-        
+       
 
         double budget;
         public double Budget
