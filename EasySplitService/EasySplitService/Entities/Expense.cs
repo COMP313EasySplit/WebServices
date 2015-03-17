@@ -10,14 +10,14 @@ namespace EasySplitService.Entities
         private int expenseID;
         private string name, place, dateCreated;
         private double amount;
-        private Participants user = new Participants();
+        private Participants originalPayer = new Participants();
 
-        public Participants User
+
+        public Participants OriginalPayer
         {
-            get { return user; }
-            set { user = value; }
+            get { return originalPayer; }
+            set { originalPayer = value; }
         }
-
 
         public string DateCreated
         {

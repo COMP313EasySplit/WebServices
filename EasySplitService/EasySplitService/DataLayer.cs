@@ -395,10 +395,10 @@ namespace EasySplitService
                     objExpense.Amount = double.Parse(dr["Amount"].ToString());
                     objExpense.Place = dr["Place"].ToString();
                     objExpense.DateCreated = dr["DateCreated"].ToString();
-                    objExpense.User.Userid = int.Parse(dr["User_Id"].ToString());
-                    objExpense.User.Firstname = dr["Firstname"].ToString();
-                    objExpense.User.Lastname = dr["Lastname"].ToString();
-                    objExpense.User.Email = dr["Email"].ToString();
+                    objExpense.OriginalPayer.Userid = int.Parse(dr["User_Id"].ToString());
+                    objExpense.OriginalPayer.Firstname = dr["Firstname"].ToString();
+                    objExpense.OriginalPayer.Lastname = dr["Lastname"].ToString();
+                    objExpense.OriginalPayer.Email = dr["Email"].ToString();
                     expenses[count] = objExpense;
                     count++;
                 }
