@@ -279,25 +279,25 @@ namespace EasySplitService
             
             try
             {
-                sqlCommand = "Select EventId,Name,DateCreated,Budget,Status from TEvent where HostId=" + hostid;
-                
+                sqlCommand = "Select TEvent.EventId,TEvent.Name,TEvent.DateCreated,Budget,Status ,sum(isnull(amount,0)) as TotalExpense from TEvent left join TExpense on TEvent.EventId=TExpense.EventId where HostId="+hostid+" group by TEvent.EventId,TEvent.Name,TEvent.DateCreated,Budget,Status order by TEvent.DateCreated desc ";
+
                 con.Open();
                 dataAdapter = new SqlDataAdapter(sqlCommand, con);
                 dataAdapter.Fill(dataSet,"Event");
-                
+
                 int size=dataSet.Tables["Event"].Rows.Count;
                 Event[] events=new Event[size];
                 int count = 0;
 
-                
                 foreach(DataRow dr in dataSet.Tables["Event"].Rows)
                 {
                     Event objEvent= new Event();
                     objEvent.EventId=int.Parse(dr["EventId"].ToString());
                     objEvent.Name=dr["Name"].ToString();
-                    objEvent.DateCreated=dr["DateCreated"].ToString();
+                    objEvent.DateCreated = DateTime.Parse(dr["DateCreated"].ToString()).ToString("yyyy-MM-dd");
                     objEvent.Budget=double.Parse(dr["Budget"].ToString());
                     objEvent.Status=dr["Status"].ToString();
+                    objEvent.TotalSpend = double.Parse(dr["TotalExpense"].ToString());
 
                     events[count] = objEvent;
                     count++;

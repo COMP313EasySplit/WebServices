@@ -24,14 +24,15 @@ namespace EasySplitService
         }
 
 
-        string dateCreated;
+        String dateCreated;
 
-        public string DateCreated
+        public String DateCreated
         {
             get { return dateCreated; }
             set { dateCreated = value; }
         }
-       
+
+
 
         double budget;
         public double Budget
@@ -47,6 +48,12 @@ namespace EasySplitService
             get { return status; }
             set { status = value; }
         }
-       
+
+        double totalSpend;
+        public double TotalSpend
+        {
+            get { return totalSpend; }
+            set { totalSpend = value; }
+        }
     }
 }
