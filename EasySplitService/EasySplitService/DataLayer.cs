@@ -394,7 +394,7 @@ namespace EasySplitService
                     objExpense.Name = dr["Name"].ToString();
                     objExpense.Amount = double.Parse(dr["Amount"].ToString());
                     objExpense.Place = dr["Place"].ToString();
-                    objExpense.DateCreated = dr["DateCreated"].ToString();
+                    objExpense.DateCreated = DateTime.Parse(dr["DateCreated"].ToString()).ToString("yyyy-MM-dd");
                     objExpense.OriginalPayer.Userid = int.Parse(dr["User_Id"].ToString());
                     objExpense.OriginalPayer.Firstname = dr["Firstname"].ToString();
                     objExpense.OriginalPayer.Lastname = dr["Lastname"].ToString();
