@@ -266,9 +266,11 @@ namespace EasySplitService
         }
 
         //Method to show all participants for an host as history
-        void UploadImage(int expenseid, Stream image)
+        public string UploadImage(string expenseid, Stream image)
         {
-            dl.UploadImage(expenseid, image);
+            string message;
+            message = dl.UploadImage(expenseid, image);
+            return message;
         }
     }
 }

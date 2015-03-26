@@ -74,9 +74,9 @@ namespace EasySplitService
         [WebInvoke(Method = "POST", UriTemplate = "getParticipantByHost/{hostid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         Participants[] ShowParticipantHistory(string hostid);
 
-        ////Method to recieve an image and store to database
+        //Method to recieve an image and store to database
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "uploadImage/{expenseid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
-        void UploadImage(int expenseid, Stream image);
+        string UploadImage(string expenseid, Stream image);
     }
 }

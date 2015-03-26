@@ -467,24 +467,40 @@ namespace EasySplitService
 
 
         //Method to upload image to database
-        public void UploadImage(int expenseid, Stream image)
+        public string UploadImage(string expenseid, Stream image)
         {
-            byte[] fileData = new byte[(int)image.Length];
+            try
+            {
+                byte[] fileData = new byte[(int)image.Length];
 
-            image.Read(fileData, 0, (int)image.Length);
-            image.Close();
+                image.Read(fileData, 0, (int)image.Length);
+                image.Close();
 
-            SqlCommand cmd = new SqlCommand("INSERT INTO TExpenseImage (ExpenseId, Image) VALUES (@ExpenseId, @Image)");
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = con;
+                con.Open();
+                SqlCommand cmd = new SqlCommand("INSERT INTO TExpenseImage (ExpenseId, Image) VALUES (@ExpenseId, @Image)");
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = con;
 
-            cmd.Parameters.AddWithValue("@ExpenseId", expenseid);
+                cmd.Parameters.AddWithValue("@ExpenseId", expenseid);
 
-            SqlParameter imageParameter = new SqlParameter("@Image", SqlDbType.Image);
-            imageParameter.Value = fileData;
-            cmd.Parameters.Add(imageParameter);
+                SqlParameter imageParameter = new SqlParameter("@Image", SqlDbType.Image);
+                imageParameter.Value = fileData;
+                cmd.Parameters.Add(imageParameter);
 
-            cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
+
+                return "Image Uploaded";
+            }
+            catch (Exception e)
+            {
+                //Handle exception
+                //Log stack trace for exception in a text file
+                return e.StackTrace;
+            }
+            finally
+            {
+                con.Close();
+            }
         }
     }
 }
