@@ -464,5 +464,27 @@ namespace EasySplitService
                 con.Close();
             }
         }
+
+
+        //Method to upload image to database
+        public void UploadImage(int expenseid, Stream image)
+        {
+            byte[] fileData = new byte[(int)image.Length];
+
+            image.Read(fileData, 0, (int)image.Length);
+            image.Close();
+
+            SqlCommand cmd = new SqlCommand("INSERT INTO TExpenseImage (ExpenseId, Image) VALUES (@ExpenseId, @Image)");
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = con;
+
+            cmd.Parameters.AddWithValue("@ExpenseId", expenseid);
+
+            SqlParameter imageParameter = new SqlParameter("@Image", SqlDbType.Image);
+            imageParameter.Value = fileData;
+            cmd.Parameters.Add(imageParameter);
+
+            cmd.ExecuteNonQuery();
+        }
     }
 }

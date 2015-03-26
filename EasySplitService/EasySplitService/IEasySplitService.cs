@@ -1,6 +1,7 @@
 ﻿using EasySplitService.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -72,5 +73,10 @@ namespace EasySplitService
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "getParticipantByHost/{hostid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         Participants[] ShowParticipantHistory(string hostid);
+
+        ////Method to recieve an image and store to database
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "uploadImage/{expenseid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        void UploadImage(int expenseid, Stream image);
     }
 }

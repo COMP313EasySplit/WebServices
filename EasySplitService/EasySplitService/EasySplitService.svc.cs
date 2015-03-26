@@ -1,6 +1,7 @@
 ﻿using EasySplitService.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -262,6 +263,12 @@ namespace EasySplitService
             Participants[] participants = dl.ShowParticipantHistory(hostid);
 
             return participants;
+        }
+
+        //Method to show all participants for an host as history
+        void UploadImage(int expenseid, Stream image)
+        {
+            dl.UploadImage(expenseid, image);
         }
     }
 }
