@@ -265,12 +265,22 @@ namespace EasySplitService
             return participants;
         }
 
-        //Method to show all participants for an host as history
-        public string UploadImage(string expenseid, Stream image)
+
+        //Method to show all events for a participant
+        public Event[] ShowParticipantEvents(string hostid)
         {
-            string message;
-            message = dl.UploadImage(expenseid, image);
-            return message;
+            Event[] events = dl.ShowParticipantEvents(hostid);
+
+            return events;
         }
+
+
+        ////Method to upload an image and save to database
+        //public string UploadImage(string expenseid, Stream image)
+        //{
+        //    string message;
+        //    message = dl.UploadImage(expenseid, image);
+        //    return message;
+        //}
     }
 }

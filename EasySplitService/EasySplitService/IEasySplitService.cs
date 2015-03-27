@@ -54,7 +54,7 @@ namespace EasySplitService
         [WebInvoke(Method = "POST", UriTemplate = "deleteExpense/{expenseid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         bool DeleteExpense(string expenseid);
 
-        //Method to show all events for a participant
+        //Method to show all events for a host
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "showHostEvents/{hostid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         Event[] ShowHostEvents(string hostid);
@@ -74,9 +74,14 @@ namespace EasySplitService
         [WebInvoke(Method = "POST", UriTemplate = "getParticipantByHost/{hostid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         Participants[] ShowParticipantHistory(string hostid);
 
-        //Method to recieve an image and store to database
+        //Method to show all events for a participant
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "uploadImage/{expenseid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
-        string UploadImage(string expenseid, Stream image);
+        [WebInvoke(Method = "POST", UriTemplate = "showParticipantEvents/{hostid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        Event[] ShowParticipantEvents(string hostid);
+
+        ////Method to recieve an image and store to database
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "uploadImage/{expenseid}/{image}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        //string UploadImage(string expenseid, Stream image);
     }
 }

@@ -466,9 +466,60 @@ namespace EasySplitService
         }
 
 
+        //Method to show all events for a participant
+        public Event[] ShowParticipantEvents(string userid)
+        {
+
+            SqlDataAdapter dataAdapter;
+            DataSet dataSet = new DataSet("Events");
+            String sqlCommand = null;
+
+            try
+            {
+                sqlCommand = "Select TEvent.EventId,TEvent.Name,TEvent.DateCreated,Budget,Status, sum(isnull(amount,0)) as TotalExpense from TEvent left join TExpense on TEvent.EventId=TExpense.EventId where TEvent.EventId IN (select TEventMembers.EventId from TEventMembers where UserId="+userid+") group by TEvent.EventId,TEvent.Name,TEvent.DateCreated,Budget,Status order by TEvent.DateCreated desc";
+
+                con.Open();
+                dataAdapter = new SqlDataAdapter(sqlCommand, con);
+                dataAdapter.Fill(dataSet, "Event");
+
+                int size = dataSet.Tables["Event"].Rows.Count;
+                Event[] events = new Event[size];
+                int count = 0;
+
+                foreach (DataRow dr in dataSet.Tables["Event"].Rows)
+                {
+                    Event objEvent = new Event();
+                    objEvent.EventId = int.Parse(dr["EventId"].ToString());
+                    objEvent.Name = dr["Name"].ToString();
+                    objEvent.DateCreated = DateTime.Parse(dr["DateCreated"].ToString()).ToString("yyyy-MM-dd");
+                    objEvent.Budget = double.Parse(dr["Budget"].ToString());
+                    objEvent.Status = dr["Status"].ToString();
+                    objEvent.TotalSpend = double.Parse(dr["TotalExpense"].ToString());
+
+                    events[count] = objEvent;
+                    count++;
+                }
+
+                return events;
+            }
+            catch (Exception e)
+            {
+                //Handle exception
+                //Log stack trace for exception in a text file
+                return null;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+
         //Method to upload image to database
         public string UploadImage(string expenseid, Stream image)
         {
+            
+
             try
             {
                 byte[] fileData = new byte[(int)image.Length];
