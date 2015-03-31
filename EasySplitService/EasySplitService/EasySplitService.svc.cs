@@ -275,12 +275,15 @@ namespace EasySplitService
         }
 
 
-        ////Method to upload an image and save to database
-        //public string UploadImage(string expenseid, Stream image)
-        //{
-        //    string message;
-        //    message = dl.UploadImage(expenseid, image);
-        //    return message;
-        //}
+        //Method to upload an image and save to database
+        public string UploadImage(string expenseid, String image)
+        {
+            string message;
+
+            MemoryStream imageStream = new MemoryStream(Encoding.UTF8.GetBytes(image));
+
+            message = dl.UploadImage(expenseid, imageStream);
+            return message;
+        }
     }
 }
