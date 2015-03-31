@@ -371,13 +371,20 @@ namespace EasySplitService
         {
 
             SqlDataAdapter dataAdapter;
+            SqlDataAdapter UserIdDataAdapter;
             DataSet dataSet = new DataSet("Expenses");
+            DataSet UserIdDataSet = new DataSet("Users");
             String sqlCommand = null;
+            String UserIdSqlCommand = null;
+            String EventId=null;
+            int usersCount;
+            int[] userId;
+            int userIdCount;
 
             try
             {
                 sqlCommand = "Select E.ExpenseId, E.Name, E.Amount, E.Place, E.DateCreated, U.User_Id, U.Firstname, U.Lastname, U.Email from TExpense E JOIN TUser U ON E.OriginalPayer=U.User_Id where E.EventId=" + eventid;
-
+                
                 con.Open();
                 dataAdapter = new SqlDataAdapter(sqlCommand, con);
                 dataAdapter.Fill(dataSet, "Expense");
@@ -399,8 +406,27 @@ namespace EasySplitService
                     objExpense.OriginalPayer.Firstname = dr["Firstname"].ToString();
                     objExpense.OriginalPayer.Lastname = dr["Lastname"].ToString();
                     objExpense.OriginalPayer.Email = dr["Email"].ToString();
+
+                    EventId = dr["ExpenseId"].ToString();
+
+                    UserIdSqlCommand = "Select UserId from TExpenseShare where ExpenseId=" + EventId;
+                    UserIdDataAdapter = new SqlDataAdapter(UserIdSqlCommand, con);
+                    UserIdDataAdapter.Fill(UserIdDataSet, "Users");
+
+                    usersCount = UserIdDataSet.Tables["Users"].Rows.Count;
+                    userId = new int[usersCount];
+                    userIdCount = 0;
+
+                    foreach (DataRow drUsers in UserIdDataSet.Tables["Users"].Rows)
+                    {
+                        userId[userIdCount] = int.Parse(drUsers["UserId"].ToString());
+                        userIdCount++;
+                    }
+
+                    objExpense.UserId = userId;
                     expenses[count] = objExpense;
                     count++;
+                    UserIdDataSet.Clear();
                 }
 
                 return expenses;
