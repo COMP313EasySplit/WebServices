@@ -306,5 +306,26 @@ namespace EasySplitService
 
             return updated;
         }
+
+
+        //Method to add or update participants sharing an expense
+        public bool addExpenseParticipants(string expenseid, string userid, string amount)
+        {
+            bool updated = false;
+            int added = 0;
+
+            added = dl.addExpenseParticipants(expenseid, userid, amount);
+
+            if (added > 0)
+            {
+                updated = true;
+            }
+            else
+            {
+                updated = false;
+            }
+
+            return updated;
+        }
     }
 }

@@ -621,5 +621,39 @@ namespace EasySplitService
 
             return added;
         }
+
+
+        //Method to add or update participants sharing an expense
+        public int addExpenseParticipants(string expenseid, string userid, string amount)
+        {
+            int added = 0;
+            con.Open();
+            SqlTransaction transaction = con.BeginTransaction("AddExpParticipants_Transaction");
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand("INSERT INTO TExpenseShare (ExpenseId, UserId, Amount) values (@ExpenseId,@UserId,@Amount)");
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = con;
+                cmd.Transaction = transaction;
+
+                cmd.Parameters.AddWithValue("@ExpenseId", expenseid);
+                cmd.Parameters.AddWithValue("@UserId", userid);
+                cmd.Parameters.AddWithValue("@Amount", amount);
+
+                added = cmd.ExecuteNonQuery();
+                transaction.Commit();
+            }
+            catch (Exception e)
+            {
+                transaction.Rollback();
+            }
+            finally
+            {
+                con.Close();
+            }
+
+            return added;
+        }
     }
 }
