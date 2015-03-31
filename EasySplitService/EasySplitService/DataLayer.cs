@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -548,17 +550,25 @@ namespace EasySplitService
 
             try
             {
+
+                //Image img = Image.FromFile(@"E:\\image.jpg");
+                //MemoryStream ms = new MemoryStream();
+                //img.Save(ms, ImageFormat.Jpeg);
+
+
                 byte[] fileData = new byte[(int)image.Length];
 
                 image.Read(fileData, 0, (int)image.Length);
                 image.Close();
+
+               
 
                 con.Open();
                 SqlCommand cmd = new SqlCommand("INSERT INTO TExpenseImage (ExpenseId, Image) VALUES (@ExpenseId, @Image)");
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = con;
 
-                cmd.Parameters.AddWithValue("@ExpenseId", expenseid);
+                cmd.Parameters.AddWithValue("@ExpenseId", 1);
 
                 SqlParameter imageParameter = new SqlParameter("@Image", SqlDbType.Image);
                 imageParameter.Value = fileData;
@@ -578,6 +588,38 @@ namespace EasySplitService
             {
                 con.Close();
             }
+        }
+
+        //Method to add or update participants for an event
+        public int addEventParticipants(string eventid, string userid)
+        {
+            int added = 0;
+            con.Open();
+            SqlTransaction transaction = con.BeginTransaction("AddEventParticipants_Transaction");
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand("INSERT INTO TEventMembers (EventId,UserId) values (@EventId,@UserId)");
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = con;
+                cmd.Transaction = transaction;
+
+                cmd.Parameters.AddWithValue("@EventId", eventid);
+                cmd.Parameters.AddWithValue("@UserId", userid);
+                
+                added = cmd.ExecuteNonQuery();
+                transaction.Commit();
+            }
+            catch (Exception e)
+            {
+                transaction.Rollback();
+            }
+            finally
+            {
+                con.Close();
+            }
+
+            return added;
         }
     }
 }

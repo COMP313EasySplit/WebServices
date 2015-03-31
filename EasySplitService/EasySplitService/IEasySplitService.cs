@@ -82,6 +82,11 @@ namespace EasySplitService
         //Method to recieve an image and store to database
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "uploadImage/{expenseid}/{image}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
-        string UploadImage(string expenseid, String image);
+        string UploadImage(string expenseid, string image);
+
+        //Method to add or update participants for an event
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "addEventParticipants/{eventid}/{userid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        bool addEventParticipants(string eventid, string userid);
     }
 }

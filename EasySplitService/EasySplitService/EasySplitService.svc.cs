@@ -285,5 +285,26 @@ namespace EasySplitService
             message = dl.UploadImage(expenseid, imageStream);
             return message;
         }
+
+
+        //Method to add or update participants for an event
+        public bool addEventParticipants(string eventid, string userid)
+        {
+            bool updated = false;
+            int added = 0;
+
+            added = dl.addEventParticipants(eventid, userid);
+
+            if(added>0)
+            {
+                updated = true;
+            }
+            else
+            {
+                updated = false;
+            }
+
+            return updated;
+        }
     }
 }
