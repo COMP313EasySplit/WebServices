@@ -476,7 +476,7 @@ namespace EasySplitService
 
             try
             {
-                sqlCommand = "Select TEvent.EventId,TEvent.Name,TEvent.DateCreated,Budget,Status, sum(isnull(amount,0)) as TotalExpense from TEvent left join TExpense on TEvent.EventId=TExpense.EventId where TEvent.EventId IN (select TEventMembers.EventId from TEventMembers where UserId="+userid+") group by TEvent.EventId,TEvent.Name,TEvent.DateCreated,Budget,Status order by TEvent.DateCreated desc";
+                sqlCommand = "Select TEvent.EventId,TEvent.Name,TEvent.DateCreated,Budget,Status, sum(isnull(amount,0)) as TotalExpense from TEvent left join TExpense on TEvent.EventId=TExpense.EventId where TEvent.EventId IN (select TEventMembers.EventId from TEventMembers where UserId="+userid+") AND TEvent.HostId<>"+userid+"group by TEvent.EventId,TEvent.Name,TEvent.DateCreated,Budget,Status order by TEvent.DateCreated desc";
 
                 con.Open();
                 dataAdapter = new SqlDataAdapter(sqlCommand, con);
