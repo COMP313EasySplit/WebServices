@@ -288,12 +288,12 @@ namespace EasySplitService
 
 
         //Method to add or update participants for an event
-        public bool addEventParticipants(string eventid, string userid)
+        public bool addEventParticipants(string eventid, string firstname, string lastname, string email)
         {
             bool updated = false;
             int added = 0;
 
-            added = dl.addEventParticipants(eventid, userid);
+            added = dl.addEventParticipants(eventid, firstname, lastname, email);
 
             if(added>0)
             {

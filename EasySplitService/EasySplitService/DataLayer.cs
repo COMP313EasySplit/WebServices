@@ -591,7 +591,7 @@ namespace EasySplitService
         }
 
         //Method to add or update participants for an event
-        public int addEventParticipants(string eventid, string userid)
+        public int addEventParticipants(string eventid, string firstname, string lastname, string email)
         {
             int added = 0;
             con.Open();
@@ -599,13 +599,15 @@ namespace EasySplitService
 
             try
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO TEventMembers (EventId,UserId) values (@EventId,@UserId)");
-                cmd.CommandType = CommandType.Text;
+                SqlCommand cmd = new SqlCommand("SP_AddEventParticipants");
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Connection = con;
                 cmd.Transaction = transaction;
 
                 cmd.Parameters.AddWithValue("@EventId", eventid);
-                cmd.Parameters.AddWithValue("@UserId", userid);
+                cmd.Parameters.AddWithValue("@Firstname", firstname);
+                cmd.Parameters.AddWithValue("@Lastname", lastname);
+                cmd.Parameters.AddWithValue("@Email", email);
                 
                 added = cmd.ExecuteNonQuery();
                 transaction.Commit();

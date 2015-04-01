@@ -86,12 +86,12 @@ namespace EasySplitService
 
         //Method to add or update participants for an event
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "addEventParticipants/{eventid}/{userid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
-        bool addEventParticipants(string eventid, string userid);
+        [WebInvoke(Method = "POST", UriTemplate = "updateEventParticipants/{eventid}/{firstname}/{lastname}/{email}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        bool addEventParticipants(string eventid, string firstname, string lastname, string email);
 
         //Method to add or update participants sharing an expense
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "addExpenseParticipants/{expenseid}/{userid}/{amount}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "POST", UriTemplate = "updateExpenseParticipants/{expenseid}/{userid}/{amount}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         bool addExpenseParticipants(string expenseid, string userid, string amount);
     }
 }
