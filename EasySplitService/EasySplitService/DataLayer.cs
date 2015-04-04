@@ -18,11 +18,19 @@ namespace EasySplitService
         static string connetionString = "Data Source=54.191.15.241;Initial Catalog=EasySplit;Persist Security Info=True;User ID=esusercomp313;Password=comp313esuser";
         SqlConnection con = new SqlConnection(connetionString);
 
-        public bool login(string id, string password)
+        public User login(string id, string password)
         {
-            bool found = false;
+            //bool found = false;
+            User user = null;
  
-            SqlCommand command = new SqlCommand("Select * from TUser where Email='" + id.Trim()+"'", con);
+            //SqlCommand command = new SqlCommand("Select * from TUser where Email='@ID' and password='@Pass'" );
+            //command.CommandType = CommandType.Text;
+            //command.Connection = con;
+            //command.Parameters.AddWithValue("@ID", id);
+            //command.Parameters.AddWithValue("@Pass", password);
+
+            SqlCommand command = new SqlCommand("Select * from TUser where Email='" + id + "' and password='" + password + "'", con);
+
             SqlDataReader dataReader;
             con.Open();
             dataReader = command.ExecuteReader();
@@ -31,22 +39,19 @@ namespace EasySplitService
             {
                 while (dataReader.Read())
                 {
-                    if (password.Trim() == dataReader.GetValue(4).ToString())
-                    {
-                        found = true;
-                        con.Close();
-                        return found;
-                    }
+                    //if (password.Trim() == dataReader.GetValue(4).ToString())
+                    //{
+                        //found = true;
+                        user = new User();
+                        user.UserId = dataReader.GetInt32(0);
+                        user.FirstName = dataReader.GetString(1);
+                        user.LastName = dataReader.GetString(2);
+                        user.Email = dataReader.GetString(3);
+                    //}
                 }
             }
-            else
-            {
-                con.Close();
-                return found;
-            }
-
             con.Close();
-            return found;
+            return user;
         }
 
         public int registerNewUser(string firstName, string lastName, string email, string password)

@@ -17,13 +17,14 @@ namespace EasySplitService
         DataLayer dl = new DataLayer();
 
 
-        public bool AuthenticateUser(string id, string password)
+        public User AuthenticateUser(string id, string password)
         {
-            bool userAuthenticated = false;
+            User user;
+            //bool userAuthenticated = false;
 
-            userAuthenticated=dl.login(id, password);
-
-            return userAuthenticated;
+            //userAuthenticated=dl.login(id, password);
+            user = dl.login(id, password);
+            return user;
         }
 
 

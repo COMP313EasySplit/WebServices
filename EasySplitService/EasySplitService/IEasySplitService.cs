@@ -17,7 +17,7 @@ namespace EasySplitService
         //Method to authenticate login
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "login/{id}/{password}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
-        bool AuthenticateUser(string id, string password);
+        User AuthenticateUser(string id, string password);
 
         //Method to register a new user
         [OperationContract]
