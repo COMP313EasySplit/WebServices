@@ -86,7 +86,7 @@ namespace EasySplitService
         }
 
         //Method to create a new event
-        public int AddEvent(string name, string budget, string hostid)
+        public Int32 AddEvent(string name, string budget, string hostid)
         {
             int added = 0;
             con.Open();
@@ -94,7 +94,7 @@ namespace EasySplitService
 
             try
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO TEvent (Name, DateCreated, Budget, Status, HostId) VALUES (@Name, GETDATE(), @Budget, @Status, @hostId)");
+                SqlCommand cmd = new SqlCommand("INSERT INTO TEvent (Name, DateCreated, Budget, Status, HostId) VALUES (@Name, GETDATE(), @Budget, @Status, @hostId); Select @@IDENTITY;");
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = con;
                 cmd.Transaction = transaction;
@@ -103,12 +103,13 @@ namespace EasySplitService
                 cmd.Parameters.AddWithValue("@Budget", budget);
                 cmd.Parameters.AddWithValue("@Status", "open");
                 cmd.Parameters.AddWithValue("@HostId", hostid);
-                added = cmd.ExecuteNonQuery();
+                added = Int32.Parse((cmd.ExecuteScalar().ToString()));
                 transaction.Commit();
             }
             catch (Exception e)
             {
                 transaction.Rollback();
+                added = -1;
             }
             finally
             {

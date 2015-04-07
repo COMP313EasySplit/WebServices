@@ -54,32 +54,21 @@ namespace EasySplitService
         }
 
         //Method to create a new event
-        public bool AddEvent(string name, string budget, string hostid)
+        public Int32 AddEvent(string name, string budget, string hostid)
         {
-            int rowsAfftected = 0;
-            bool eventCreated = false;
+            int newEventid = 0;
 
             //Check for null inputs
             if (name == null || budget == null || hostid == null)
             {
-                return eventCreated;
+                return -1;
             }
             else
             {
-                rowsAfftected = dl.AddEvent(name, budget, hostid);
-            }
-            
-            //Check if row was inserted in database
-            if (rowsAfftected == 0)
-            {
-                eventCreated = false;
-            }
-            else if (rowsAfftected == 1)
-            {
-                eventCreated = true;
+                newEventid = dl.AddEvent(name, budget, hostid);
             }
 
-            return eventCreated;
+            return newEventid;
         }
 
 

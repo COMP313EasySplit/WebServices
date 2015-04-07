@@ -27,7 +27,7 @@ namespace EasySplitService
         //Method to create a new event
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "addEvent/{name}/{budget}/{hostid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
-        bool AddEvent(string name, string budget, string hostid);
+        Int32 AddEvent(string name, string budget, string hostid);
 
         //Method to close an event
         [OperationContract]
