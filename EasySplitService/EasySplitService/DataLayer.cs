@@ -617,6 +617,7 @@ namespace EasySplitService
                 
                 added = cmd.ExecuteNonQuery();
                 transaction.Commit();
+                added = 1;// participant exists in event, ExecuteNonQuery returns -1, but as long as no exception it is ok.
             }
             catch (Exception e)
             {
