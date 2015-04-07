@@ -21,7 +21,7 @@ namespace EasySplitService
         public User login(string id, string password)
         {
             //bool found = false;
-            User user = null;
+            User user = new User();
  
             //SqlCommand command = new SqlCommand("Select * from TUser where Email='@ID' and password='@Pass'" );
             //command.CommandType = CommandType.Text;
@@ -42,7 +42,6 @@ namespace EasySplitService
                     //if (password.Trim() == dataReader.GetValue(4).ToString())
                     //{
                         //found = true;
-                        user = new User();
                         user.UserId = dataReader.GetInt32(0);
                         user.FirstName = dataReader.GetString(1);
                         user.LastName = dataReader.GetString(2);

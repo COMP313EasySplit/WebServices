@@ -13,5 +13,12 @@ namespace EasySplitService.Entities
         public string Email;
         //public string Status;
         //public string DateCreated;
+        public User()
+        {
+            UserId = 0;
+            FirstName = "";
+            LastName = "";
+            Email = "";
+        }
     }
 }
