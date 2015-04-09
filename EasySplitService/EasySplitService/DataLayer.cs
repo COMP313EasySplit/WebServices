@@ -663,5 +663,50 @@ namespace EasySplitService
 
             return added;
         }
+
+
+        //Method to display summary for an event
+        public Summary[] showSummary(string eventid)
+        {
+
+            SqlDataAdapter dataAdapter;
+            DataSet dataSet = new DataSet("Events");
+            String sqlCommand = null;
+
+            try
+            {
+                sqlCommand = "select sum(amount) as amount, userid from TExpenseShare where expenseid in(select expenseid from TExpense where eventid = " + eventid + ") group by userid";
+
+                con.Open();
+                dataAdapter = new SqlDataAdapter(sqlCommand, con);
+                dataAdapter.Fill(dataSet, "Summary");
+
+                int size = dataSet.Tables["Summary"].Rows.Count;
+                Summary[] eventSummary = new Summary[size];
+                int count = 0;
+
+                foreach (DataRow dr in dataSet.Tables["Summary"].Rows)
+                {
+                    Summary objSummary = new Summary();
+                    objSummary.UserId = int.Parse(dr["userid"].ToString());
+                    objSummary.Amount = double.Parse(dr["amount"].ToString());
+
+                    eventSummary[count] = objSummary;
+                    count++;
+                }
+
+                return eventSummary;
+            }
+            catch (Exception e)
+            {
+                //Handle exception
+                //Log stack trace for exception in a text file
+                return null;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
     }
 }

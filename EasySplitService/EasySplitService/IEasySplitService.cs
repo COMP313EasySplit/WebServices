@@ -93,5 +93,10 @@ namespace EasySplitService
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "updateExpenseParticipants/{expenseid}/{userid}/{amount}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         bool addExpenseParticipants(string expenseid, string userid, string amount);
+
+        //Method to display summary for an event
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "showSummary/{eventid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        Summary[] showSummary(string eventid);
     }
 }

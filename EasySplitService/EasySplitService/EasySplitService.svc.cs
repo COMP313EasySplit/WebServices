@@ -317,5 +317,14 @@ namespace EasySplitService
 
             return updated;
         }
+
+
+        //Method to display summary for an event
+        public Summary[] showSummary(string eventid)
+        {
+            Summary[] eventSummary = dl.showSummary(eventid);
+
+            return eventSummary;
+        }
     }
 }

@@ -69,6 +69,7 @@
     </Compile>
     <Compile Include="Entities\Event.cs" />
     <Compile Include="Entities\Expense.cs" />
+    <Compile Include="Entities\Summary.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="IEasySplitService.cs" />
     <Compile Include="Entities\Participants.cs" />
