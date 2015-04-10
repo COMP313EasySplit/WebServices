@@ -1,6 +1,8 @@
 ﻿using EasySplitService.Entities;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -97,6 +99,7 @@ namespace EasySplitService
         //Method to display summary for an event
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "showSummary/{eventid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
-        Summary[] showSummary(string eventid);
+        List<String[]> showSummary(string eventid);
+        //Summary[] showSummary(string eventid);
     }
 }

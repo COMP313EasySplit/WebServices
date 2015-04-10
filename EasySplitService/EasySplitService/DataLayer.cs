@@ -1,5 +1,6 @@
 ﻿using EasySplitService.Entities;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -9,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Xml;
+using Microsoft.ApplicationBlocks.Data;
 
 namespace EasySplitService
 {
@@ -667,47 +669,122 @@ namespace EasySplitService
 
 
         //Method to display summary for an event
-        public Summary[] showSummary(string eventid)
-        {
+        //public Summary[] showSummary(string eventid)
+        //{
 
-            SqlDataAdapter dataAdapter;
-            DataSet dataSet = new DataSet("Events");
-            String sqlCommand = null;
+        //    SqlDataAdapter dataAdapter;
+        //    DataSet dataSet = new DataSet("Events");
+        //    String sqlCommand = null;
+
+        //    try
+        //    {
+        //        sqlCommand = "select sum(amount) as amount, userid from TExpenseShare where expenseid in(select expenseid from TExpense where eventid = " + eventid + ") group by userid";
+
+        //        con.Open();
+        //        dataAdapter = new SqlDataAdapter(sqlCommand, con);
+        //        dataAdapter.Fill(dataSet, "Summary");
+
+        //        int size = dataSet.Tables["Summary"].Rows.Count;
+        //        Summary[] eventSummary = new Summary[size];
+        //        int count = 0;
+
+        //        foreach (DataRow dr in dataSet.Tables["Summary"].Rows)
+        //        {
+        //            Summary objSummary = new Summary();
+        //            objSummary.UserId = int.Parse(dr["userid"].ToString());
+        //            objSummary.Amount = double.Parse(dr["amount"].ToString());
+
+        //            eventSummary[count] = objSummary;
+        //            count++;
+        //        }
+
+        //        return eventSummary;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        //Handle exception
+        //        //Log stack trace for exception in a text file
+        //        return null;
+        //    }
+        //    finally
+        //    {
+        //        con.Close();
+        //    }
+        //}
+        public List<String[]> showSummary(string eventid)
+        {
+            List<String[]> listSummary = new List<String[]>();
+
+            con.Open();
+            DataTable dtSummary = new DataTable();
 
             try
             {
-                sqlCommand = "select sum(amount) as amount, userid from TExpenseShare where expenseid in(select expenseid from TExpense where eventid = " + eventid + ") group by userid";
-
-                con.Open();
-                dataAdapter = new SqlDataAdapter(sqlCommand, con);
-                dataAdapter.Fill(dataSet, "Summary");
-
-                int size = dataSet.Tables["Summary"].Rows.Count;
-                Summary[] eventSummary = new Summary[size];
-                int count = 0;
-
-                foreach (DataRow dr in dataSet.Tables["Summary"].Rows)
+                DataSet dsSummary = SqlHelper.ExecuteDataset(con,"SP_EventSummary", eventid);
+                dtSummary.Columns.Add((new DataColumn("ExpenseID", Type.GetType("System.Int32"))));
+                dtSummary.Columns.Add((new DataColumn("Name", Type.GetType("System.String"))));
+                DataTable dtUser = dsSummary.Tables[0];
+                foreach (DataRow drUser in dtUser.Rows)
                 {
-                    Summary objSummary = new Summary();
-                    objSummary.UserId = int.Parse(dr["userid"].ToString());
-                    objSummary.Amount = double.Parse(dr["amount"].ToString());
-
-                    eventSummary[count] = objSummary;
-                    count++;
+                    dtSummary.Columns.Add(new DataColumn("U"+drUser[0], Type.GetType("System.String")));
                 }
 
-                return eventSummary;
+                DataTable dtExpense = dsSummary.Tables[1];
+                DataTable dtExpenseDetail = dsSummary.Tables[2];
+                foreach (DataRow drExpense in dtExpense.Rows)
+                {
+                    DataRow drNew = dtSummary.NewRow();
+                    drNew["ExpenseID"] = int.Parse(drExpense[0].ToString());
+                    drNew["Name"] = drExpense[1].ToString();
+
+                    foreach (DataRow dtDetail in dtExpenseDetail.Select("expenseid=" + drExpense[0] + ""))
+                    {
+                        drNew["U" + dtDetail["userid"]] = dtDetail["amount"];
+                    }
+                    dtSummary.Rows.Add(drNew);
+                }
+
+                DataTable dtBalance = dsSummary.Tables[3];
+                DataRow drLast = dtSummary.NewRow();
+                drLast["ExpenseID"] = 0;
+                drLast["Name"] = "Balance";
+                foreach (DataRow drBalance in dtBalance.Rows)
+                {
+                    drLast["U" + drBalance["userid"]] = drBalance["amount"];
+                }
+                dtSummary.Rows.Add(drLast);
+
+
+                String[] title = new string[dtSummary.Columns.Count];
+                title[0] = "ExpenseID";
+                title[1] = "Name";
+                for ( int i=0;i<dtUser.Rows.Count;i++)
+                {
+                    title[i + 2] = dtUser.Rows[i][0].ToString();
+                }
+                listSummary.Add(title);
+
+                foreach (DataRow dr in dtSummary.Rows)
+                {
+                    String[] row = new string[dtSummary.Columns.Count];
+                    for ( int i=0; i<dtSummary.Columns.Count;i++)
+                    {
+                        row[i] = dr[i].ToString();
+                    }
+                    listSummary.Add(row);
+                }
             }
             catch (Exception e)
             {
-                //Handle exception
-                //Log stack trace for exception in a text file
-                return null;
             }
             finally
             {
                 con.Close();
             }
+
+            return listSummary;
+
         }
+
     }
 }

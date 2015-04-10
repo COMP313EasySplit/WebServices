@@ -1,6 +1,8 @@
 ﻿using EasySplitService.Entities;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -305,11 +307,12 @@ namespace EasySplitService
 
 
         //Method to display summary for an event
-        public Summary[] showSummary(string eventid)
+        //public Summary[] showSummary(string eventid)
+        public List<String[]> showSummary(string eventid)
         {
-            Summary[] eventSummary = dl.showSummary(eventid);
-
-            return eventSummary;
+            //Summary[] eventSummary = dl.showSummary(eventid);
+            //return eventSummary;
+            return dl.showSummary(eventid);
         }
     }
 }
