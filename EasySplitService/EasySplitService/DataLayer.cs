@@ -180,15 +180,15 @@ namespace EasySplitService
         }
 
         //Method to create a new expense
-        public int AddExpense(string eventid, string name, string amount, string place, string originalpayer)
+        public Int32 AddExpense(string eventid, string name, string amount, string place, string originalpayer)
         {
-            int added = 0;
+            Int32 expenseId = 0;
             con.Open();
             SqlTransaction transaction = con.BeginTransaction("AddExpense_Transaction");
 
             try
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO TExpense (EventId, Name, DateCreated, Amount, Place, OriginalPayer) VALUES (@EventId, @Name, getdate(), @Amount, @Place, @OriginalPayer)");
+                SqlCommand cmd = new SqlCommand("INSERT INTO TExpense (EventId, Name, DateCreated, Amount, Place, OriginalPayer) VALUES (@EventId, @Name, getdate(), @Amount, @Place, @OriginalPayer); Select @@IDENTITY;");
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = con;
                 cmd.Transaction = transaction;
@@ -198,7 +198,7 @@ namespace EasySplitService
                 cmd.Parameters.AddWithValue("@Amount", amount);
                 cmd.Parameters.AddWithValue("@Place", place);
                 cmd.Parameters.AddWithValue("@OriginalPayer", originalpayer);
-                added = cmd.ExecuteNonQuery();
+                expenseId = Int32.Parse(cmd.ExecuteScalar().ToString());
                 transaction.Commit();
             }
             catch(Exception e)
@@ -209,7 +209,7 @@ namespace EasySplitService
             {
                 con.Close();
             }
-            return added;
+            return expenseId;
         }
 
 

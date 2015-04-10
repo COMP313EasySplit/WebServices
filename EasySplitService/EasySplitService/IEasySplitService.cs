@@ -42,7 +42,7 @@ namespace EasySplitService
         //Method to create a new expense entry
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "addExpense/{eventid}/{name}/{amount}/{place}/{originalpayer}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
-        bool AddExpense(string eventid, string name, string amount, string place, string originalpayer);
+        Int32 AddExpense(string eventid, string name, string amount, string place, string originalpayer);
 
         //Method to update an expense entry
         [OperationContract]

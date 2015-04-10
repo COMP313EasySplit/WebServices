@@ -133,32 +133,17 @@ namespace EasySplitService
 
 
         //Method to create a new expense
-        public bool AddExpense(string eventid, string name, string amount, string place, string originalpayer)
+        public Int32 AddExpense(string eventid, string name, string amount, string place, string originalpayer)
         {
-            int rowsAfftected = 0;
-            bool expenseCreated = false;
-
             //Check for null inputs
             if (eventid==null || name == null || place == null || originalpayer==null)
             {
-                return expenseCreated;
+                return -1;
             }
             else
             {
-                rowsAfftected = dl.AddExpense(eventid, name, amount, place, originalpayer);
+                return dl.AddExpense(eventid, name, amount, place, originalpayer);
             }
-
-            //Check if row was inserted in database
-            if (rowsAfftected == 0)
-            {
-                expenseCreated = false;
-            }
-            else if (rowsAfftected == 1)
-            {
-                expenseCreated = true;
-            }
-
-            return expenseCreated;
         }
 
         //Method to update an expense
