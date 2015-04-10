@@ -384,7 +384,7 @@ namespace EasySplitService
             String UserIdSqlCommand = null;
             String EventId=null;
             int usersCount;
-            int[] userId;
+            Expense.Share[] shares;
             int userIdCount;
 
             try
@@ -415,21 +415,23 @@ namespace EasySplitService
 
                     EventId = dr["ExpenseId"].ToString();
 
-                    UserIdSqlCommand = "Select UserId from TExpenseShare where ExpenseId=" + EventId;
+                    UserIdSqlCommand = "Select UserId,Amount from TExpenseShare where ExpenseId=" + EventId;
                     UserIdDataAdapter = new SqlDataAdapter(UserIdSqlCommand, con);
-                    UserIdDataAdapter.Fill(UserIdDataSet, "Users");
+                    UserIdDataAdapter.Fill(UserIdDataSet, "Shares");
 
-                    usersCount = UserIdDataSet.Tables["Users"].Rows.Count;
-                    userId = new int[usersCount];
+                    usersCount = UserIdDataSet.Tables["Shares"].Rows.Count;
+                    shares = new Expense.Share[usersCount];
                     userIdCount = 0;
 
-                    foreach (DataRow drUsers in UserIdDataSet.Tables["Users"].Rows)
+                    foreach (DataRow drUsers in UserIdDataSet.Tables["Shares"].Rows)
                     {
-                        userId[userIdCount] = int.Parse(drUsers["UserId"].ToString());
+                        shares[userIdCount] = new Expense.Share();
+                        shares[userIdCount].UserId = int.Parse(drUsers["UserId"].ToString());
+                        shares[userIdCount].Amount = double.Parse(drUsers["Amount"].ToString());
                         userIdCount++;
                     }
 
-                    objExpense.UserId = userId;
+                    objExpense.Shares = shares;
                     expenses[count] = objExpense;
                     count++;
                     UserIdDataSet.Clear();

@@ -11,12 +11,18 @@ namespace EasySplitService.Entities
         private string name, place, dateCreated;
         private double amount;
         private Participants originalPayer = new Participants();
-        int[] userId;
+        private Share[] shares;
 
-        public int[] UserId
+        public class Share
         {
-            get { return userId; }
-            set { userId = value; }
+            public int UserId;
+            public double Amount;
+        }
+
+        public Share[] Shares
+        {
+            get { return shares; }
+            set { shares = value; }
         }
 
         public Participants OriginalPayer
