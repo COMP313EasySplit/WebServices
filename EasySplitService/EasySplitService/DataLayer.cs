@@ -721,12 +721,14 @@ namespace EasySplitService
             try
             {
                 DataSet dsSummary = SqlHelper.ExecuteDataset(con,"SP_EventSummary", eventid);
-                dtSummary.Columns.Add((new DataColumn("ExpenseID", Type.GetType("System.Int32"))));
+                //dtSummary.Columns.Add((new DataColumn("ExpenseID", Type.GetType("System.Int32"))));
                 dtSummary.Columns.Add((new DataColumn("Name", Type.GetType("System.String"))));
                 DataTable dtUser = dsSummary.Tables[0];
                 foreach (DataRow drUser in dtUser.Rows)
                 {
-                    dtSummary.Columns.Add(new DataColumn("U"+drUser[0], Type.GetType("System.String")));
+                    DataColumn col = new DataColumn("U" + drUser[0], Type.GetType("System.String"));
+                    col.DefaultValue = "0.00";
+                    dtSummary.Columns.Add(col);
                 }
 
                 DataTable dtExpense = dsSummary.Tables[1];
@@ -734,7 +736,7 @@ namespace EasySplitService
                 foreach (DataRow drExpense in dtExpense.Rows)
                 {
                     DataRow drNew = dtSummary.NewRow();
-                    drNew["ExpenseID"] = int.Parse(drExpense[0].ToString());
+                    //drNew["ExpenseID"] = int.Parse(drExpense[0].ToString());
                     drNew["Name"] = drExpense[1].ToString();
 
                     foreach (DataRow dtDetail in dtExpenseDetail.Select("expenseid=" + drExpense[0] + ""))
@@ -746,7 +748,7 @@ namespace EasySplitService
 
                 DataTable dtBalance = dsSummary.Tables[3];
                 DataRow drLast = dtSummary.NewRow();
-                drLast["ExpenseID"] = 0;
+                //drLast["ExpenseID"] = 0;
                 drLast["Name"] = "Balance";
                 foreach (DataRow drBalance in dtBalance.Rows)
                 {
@@ -756,11 +758,11 @@ namespace EasySplitService
 
 
                 String[] title = new string[dtSummary.Columns.Count];
-                title[0] = "ExpenseID";
-                title[1] = "Name";
+                //title[0] = "ExpenseID";
+                title[0] = "Name";
                 for ( int i=0;i<dtUser.Rows.Count;i++)
                 {
-                    title[i + 2] = dtUser.Rows[i][0].ToString();
+                    title[i + 1] = dtUser.Rows[i][1].ToString();
                 }
                 listSummary.Add(title);
 
@@ -770,6 +772,8 @@ namespace EasySplitService
                     for ( int i=0; i<dtSummary.Columns.Count;i++)
                     {
                         row[i] = dr[i].ToString();
+                        if (i > 0)
+                            row[i] = double.Parse(dr[i].ToString()).ToString("N2");
                     }
                     listSummary.Add(row);
                 }
